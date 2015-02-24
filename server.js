@@ -11,8 +11,12 @@ var app = express();
 // configure public assets folder
 app.use(express.static(__dirname + '/public'));
 
-// route to send index.html
-app.get('/', function(req, res) {
+// API routes
+var apiRoutes = require('./app/routes/api')(app, express);
+app.use('/api', apiRoutes);
+
+// catch-all route
+app.get('*', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/app/index.html'));
 });
 
