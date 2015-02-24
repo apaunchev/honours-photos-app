@@ -1,0 +1,8 @@
+{
+  "name": "photos-app",
+  "main": "server.js",
+  "author": "Angel Paunchev",
+  "devDependencies": {
+    "express": "^4.12.0"
+  }
+}
