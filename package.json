@@ -1,5 +1,5 @@
 {
-  "name": "photos-app",
+  "name": "honours-photos-app",
   "main": "server.js",
   "author": "Angel Paunchev",
   "devDependencies": {
