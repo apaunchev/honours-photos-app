@@ -1,8 +1,7 @@
-/**
- * API.JS
- */
+// app/routes/api.js
 
 var config = require('../../config');
+var User = require('../models/user');
 
 module.exports = function(app, express) {
     var apiRouter = express.Router();

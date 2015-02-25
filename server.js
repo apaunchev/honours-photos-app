@@ -1,12 +1,14 @@
-/**
- * SERVER.JS
- */
+// server.js
 
 // call required packages
 var config = require('./config');
 var path = require('path');
+var mongoose = require('mongoose');
 var express = require('express');
 var app = express();
+
+// connect to database
+mongoose.connect(config.database);
 
 // configure public assets folder
 app.use(express.static(__dirname + '/public'));
