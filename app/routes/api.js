@@ -1,7 +1,7 @@
 // app/routes/api.js
 
-var config = require('../../config');
-var User = require('../models/user');
+var User = require('../models/user'),
+    Photo = require('../models/photo');
 
 module.exports = function(app, express) {
     var apiRouter = express.Router();
@@ -25,7 +25,6 @@ module.exports = function(app, express) {
 
         // create a user
         .post(function(req, res) {
-            console.log(req);
             var user = new User();
             user.username = req.body.username;
             user.password = req.body.password;
@@ -84,6 +83,38 @@ module.exports = function(app, express) {
                 if (err) res.send(err);
 
                 res.json({ message: 'User deleted.' });
+            });
+        });
+
+    // API: /photos
+    apiRouter.route('/photos')
+
+        // get all photos
+        .get(function(req, res) {
+            Photo.find(function(err, photos) {
+                if (err) res.send(err);
+
+                res.json(photos);
+            });
+        })
+
+        // create a photo
+        .post(function(req, res) {
+            var photo = new Photo();
+            photo._user = req.body._user;
+            photo.url = req.body.url;
+            photo.caption = req.body.caption;
+
+            photo.save(function(err) {
+                if (err) {
+                    // duplicate entry
+                    if (err.code == 11000)
+                        return res.json({ success: false, message: 'A photo with that URL already exists.' });
+                    else
+                        return res.send(err);
+                }
+
+                res.json({ message: 'Photo created.' });
             });
         });
 
