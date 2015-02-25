@@ -86,6 +86,22 @@ module.exports = function(app, express) {
             });
         });
 
+    // API: /users/:user_id/photos
+    apiRouter.route('/users/:user_id/photos')
+
+        // get the photos of the user with that id
+        .get(function(req, res) {
+            User.findById(req.params.user_id, function(err, user) {
+                if (err) res.send(err);
+
+                Photo.find({ _user: user._id }, function(err, photos) {
+                    if (err) res.send(err);
+
+                    res.json(photos);
+                });
+            });
+        });
+
     // API: /photos
     apiRouter.route('/photos')
 
