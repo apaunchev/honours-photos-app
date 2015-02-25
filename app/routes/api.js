@@ -134,5 +134,49 @@ module.exports = function(app, express) {
             });
         });
 
+    // API: /photos/:photo_id
+    apiRouter.route('/photos/:photo_id')
+
+        // get the photo with that id
+        .get(function(req, res) {
+            Photo.findById(req.params.photo_id, function(err, photo) {
+                if (err) res.send(err);
+
+                res.json(photo);
+            });
+        })
+
+        // update the photo with that id
+        .put(function(req, res) {
+            Photo.findById(req.params.photo_id, function(err, photo) {
+                if (err) res.send(err);
+
+                // update photo's info only if it is new
+                if (req.body.url) photo.url = req.body.url;
+                if (req.body.caption) photo.caption = req.body.caption;
+
+                photo.save(function(err) {
+                    if (err) {
+                        // duplicate entry
+                        if (err.code == 11000)
+                            return res.json({ success: false, message: 'A photo with that URL already exists.' });
+                        else
+                            return res.send(err);
+                    }
+
+                    res.json({ message: 'Photo updated.' });
+                });
+            });
+        })
+
+        // delete the photo with that id
+        .delete(function(req, res) {
+            Photo.remove({ _id: req.params.photo_id }, function(err, photo) {
+                if (err) res.send(err);
+
+                res.json({ message: 'Photo deleted.' });
+            });
+        });
+
     return apiRouter;
 };
