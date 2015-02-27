@@ -1,13 +1,13 @@
 // server.js
 
 // call required packages
-var config = require('./config');
-var path = require('path');
-var mongoose = require('mongoose');
-var bodyParser = require('body-parser');
-var morgan = require('morgan');
-var express = require('express');
-var app = express();
+var config = require('./config'),
+    path = require('path'),
+    mongoose = require('mongoose'),
+    bodyParser = require('body-parser'),
+    morgan = require('morgan'),
+    express = require('express'),
+    app = express();
 
 // use body-parser so we can grab information from POST requests
 app.use(bodyParser.urlencoded({ extended: true }));
