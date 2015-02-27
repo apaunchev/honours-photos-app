@@ -1,7 +1,8 @@
 // app/routes/api.js
 
 var User = require('../models/user'),
-    Photo = require('../models/photo');
+    Photo = require('../models/photo'),
+    Comment = require('../models/comment');
 
 module.exports = function(app, express) {
     var apiRouter = express.Router();
@@ -175,6 +176,51 @@ module.exports = function(app, express) {
                 if (err) res.send(err);
 
                 res.json({ message: 'Photo deleted.' });
+            });
+        });
+
+    // API: /photos/:photo_id/comments
+    apiRouter.route('/photos/:photo_id/comments')
+
+        // get the comments of the photo with that id
+        .get(function(req, res) {
+            Photo.findById(req.params.photo_id, function(err, photo) {
+                if (err) res.send(err);
+
+                Comment.find({ _photo: photo._id }, function(err, comments) {
+                    if (err) res.send(err);
+
+                    res.json(comments);
+                });
+            });
+        });
+
+    // API: /comments
+    apiRouter.route('/comments')
+
+        // create a comment
+        .post(function(req, res) {
+            var comment = new Comment();
+            comment._user = req.body._user;
+            comment._photo = req.body._photo;
+            comment.content = req.body.content;
+
+            comment.save(function(err) {
+                if (err) return res.send(err);
+
+                res.json({ message: 'Comment created.' });
+            });
+        });
+
+    // API: /comments/:comment_id
+    apiRouter.route('/comments/:comment_id')
+
+        // get the comment with that id
+        .get(function(req, res) {
+            Comment.findById(req.params.comment_id, function(err, comment) {
+                if (err) res.send(err);
+
+                res.json(comment);
             });
         });
 
