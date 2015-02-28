@@ -2,37 +2,32 @@ var gulp       = require('gulp'),
     sass       = require('gulp-sass'),
     minifyCSS  = require('gulp-minify-css'),
     rename     = require('gulp-rename'),
-    jshint     = require('gulp-jshint'),
     concat     = require('gulp-concat'),
     uglify     = require('gulp-uglify'),
-    ngAnnotate = require('gulp-ng-annotate'),
     nodemon    = require('gulp-nodemon');
 
 gulp.task('css', function() {
     return gulp.src('public/assets/css/style.scss')
         .pipe(sass())
+        .pipe(rename('style.css'))
+        .pipe(gulp.dest('public/assets/css'))
         .pipe(minifyCSS())
         .pipe(rename({ suffix: '.min' }))
-        .pipe(gulp.dest('public/assets/css/'));
+        .pipe(gulp.dest('public/assets/css'));
 });
 
 gulp.task('js', function() {
     return gulp.src(['server.js', 'public/app/*.js', 'public/app/**/*.js'])
-        .pipe(jshint())
-        .pipe(jshint.reporter('default'));
-});
-
-gulp.task('angular', function() {
-    return gulp.src(['public/app/*.js', 'public/app/**/*.js'])
-        .pipe(ngAnnotate())
-        .pipe(concat('app.min.js'))
+        .pipe(concat('app.js'))
+        .pipe(gulp.dest('public/assets/js'))
+        .pipe(rename('app.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest('public/assets/js'));
 });
 
 gulp.task('watch', function() {
     gulp.watch('public/assets/css/style.scss', ['css']);
-    gulp.watch(['server.js', 'public/app/*.js', 'public/app/js/**/*.js'], ['js', 'angular']);
+    gulp.watch(['server.js', 'public/app/*.js', 'public/app/**/*.js'], ['js']);
 });
 
 gulp.task('nodemon', function() {
