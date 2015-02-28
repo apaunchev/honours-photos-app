@@ -1,3 +1,5 @@
+// public/app/photos/photoService.js
+
 angular.module('photoService', [])
 
     .factory('Photo', function($http) {

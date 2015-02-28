@@ -58,15 +58,10 @@ angular.module('app.routes', ['ngRoute'])
     .config(function($routeProvider, $locationProvider) {
         $routeProvider
 
+            // home page route
             .when('/', {
-                templateUrl: 'app/photos/views/all.html',
+                templateUrl: 'app/components/photos/photoView.html',
                 controller: 'photoController',
-                controllerAs: 'photo'
-            })
-
-            .when('/photos/:photo_id', {
-                templateUrl: 'app/photos/views/single.html',
-                controller: 'photoViewController',
                 controllerAs: 'photo'
             });
 
@@ -102,6 +97,8 @@ angular.module('photoController', ['photoService'])
                 vm.photoData = data;
             });
     });
+
+// public/app/photos/photoService.js
 
 angular.module('photoService', [])
 
