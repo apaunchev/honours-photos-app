@@ -17,7 +17,7 @@ gulp.task('css', function() {
 });
 
 gulp.task('js', function() {
-    return gulp.src(['server.js', 'public/app/*.js', 'public/app/**/*.js'])
+    return gulp.src(['public/app/*.js', 'public/app/**/*.js'])
         .pipe(concat('app.js'))
         .pipe(gulp.dest('public/assets/js'))
         .pipe(rename('app.min.js'))
