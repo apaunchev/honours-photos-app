@@ -222,6 +222,15 @@ module.exports = function(app, express) {
 
                 res.json(comment);
             });
+        })
+
+        // delete the comment with that id
+        .delete(function(req, res) {
+            Comment.remove({ _id: req.params.comment_id }, function(err, comment) {
+                if (err) res.send(err);
+
+                res.json({ message: 'Comment deleted.' });
+            });
         });
 
     return apiRouter;
