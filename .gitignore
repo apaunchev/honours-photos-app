@@ -3,3 +3,4 @@ bower_components/
 *.log
 public/assets/libs/
 public/assets/images/
+*.min.*
