@@ -93,6 +93,5 @@ angular.module('photoService', [])
 
         return photoFactory;
     });
->>>>>>> ui
 
 

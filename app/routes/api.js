@@ -1,11 +1,87 @@
 // app/routes/api.js
 
-var User = require('../models/user'),
+var config = require('../../config'),
+    jwt = require('jsonwebtoken'),
+    User = require('../models/user'),
     Photo = require('../models/photo'),
     Comment = require('../models/comment');
 
 module.exports = function(app, express) {
     var apiRouter = express.Router();
+
+    // API: /authenticate
+    apiRouter.post('/authenticate', function(req, res) {
+        // find the user
+        User.findOne({
+            username: req.body.username,
+        }).select('username password').exec(function(err, user) {
+            if (err) throw err;
+
+            // if no user with that username was found
+            if (!user) {
+                res.json({
+                    success: false,
+                    message: 'Authentication failed; user not found.'
+                });
+            } else if (user) {
+                // user found; check if password matches
+                var validPassword = user.comparePassword(req.body.password);
+
+                if (!validPassword) {
+                    res.json({
+                        success: false,
+                        message: 'Authentication failed; wrong password.'
+                    });
+                } else {
+                    // user found and password matches
+
+                    // create a token
+                    var token = jwt.sign({
+                        username: user.username
+                    }, config.secret, {
+                        expiresInMinutes: 1440 // expires in 24 hours
+                    });
+
+                    res.json({
+                        success: true,
+                        message: 'Enjoy your token!',
+                        token: token
+                    });
+                }
+            }
+        });
+    });
+
+    // route middleware to verify a token
+    apiRouter.use(function(req, res, next) {
+        // check header or url parameters or post parameters for token
+        var token = req.body.token || req.params.token || req.headers['x-access-token'];
+
+        // decode token
+        if (token) {
+            // verify secret and check expiration
+            jwt.verify(token, config.secret, function(err, decoded) {
+                if (err) {
+                    res.status(403).send({
+                        success: false,
+                        message: 'Failed to authenticate token.'
+                    });
+                } else {
+                    // if everything is good, save to request for use in other routes
+                    req.decoded = decoded;
+
+                    next();
+                }
+            });
+        } else {
+            // if there is no token
+            // return an HTTP response of 403 (access forbidden) and an error message
+            res.status(403).send({
+                success: false,
+                message: 'No token provided.'
+            });
+        }
+    });
 
     // test route to see if API is working
     apiRouter.get('/', function(req, res) {
@@ -102,6 +178,12 @@ module.exports = function(app, express) {
                 });
             });
         });
+
+    // API: /me
+    // endpoint to get information about the logged in user
+    apiRouter.get('/me', function(req, res) {
+        res.send(req.decoded);
+    });
 
     // API: /photos
     apiRouter.route('/photos')
