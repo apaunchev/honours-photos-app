@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="/assets/css/style.min.css">
     </head>
 
-    <body ng-app="photosApp" ng-controller="photoController as photo">
+    <body ng-app="photosApp" ng-controller="authController as auth">
         <header>
             <nav class="navbar navbar-default">
               <div class="container-fluid">
@@ -26,10 +26,15 @@
                 </div>
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                  <ul class="nav navbar-nav">
-                    <li class="active"><a href="/">Link <span class="sr-only">(current)</span></a></li>
-                    <li><a href="/">Link</a></li>
+                  <ul class="nav navbar-nav" ng-if="auth.loggedIn">
+                    <li><a href="/photos"><span class="glyphicon glyphicon-picture"></span> Photos</a></li>
+                    <li><a href="/users"><span class="glyphicon glyphicon-user"></span> Users</a></li>
                   </ul>
+                  <ul class="nav navbar-nav navbar-right">
+                        <li ng-if="!auth.loggedIn"><a href="/login">Login</a></li>
+                        <li ng-if="auth.loggedIn" class="navbar-text">Hello {{ auth.user.username }}!</li>
+                        <li ng-if="auth.loggedIn"><a href="#" ng-click="auth.doLogout()">Logout</a></li>
+                    </ul>
                 </div><!-- /navbar-collapse -->
               </div><!-- /container-fluid -->
             </nav>

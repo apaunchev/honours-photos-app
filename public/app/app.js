@@ -2,6 +2,10 @@
 
 angular.module('photosApp', [
     'app.routes',
-    'photoController',
-    'photoService'
+    'authService',
+    'authController',
+    'userService',
+    'userController',
+    'photoService',
+    'photoController'
 ]);
