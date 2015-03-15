@@ -8,4 +8,8 @@ angular.module('photosApp', [
     'userController',
     'photoService',
     'photoController'
-]);
+])
+    .config(function($httpProvider) {
+        // attach the auth interceptor to all http requests
+        $httpProvider.interceptors.push('AuthInterceptor');
+    });

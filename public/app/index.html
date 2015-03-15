@@ -7,7 +7,7 @@
 
         <base href="/">
 
-        <link rel="stylesheet" href="/assets/libs/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootswatch/3.3.2/paper/bootstrap.min.css">
         <link rel="stylesheet" href="/assets/css/style.min.css">
     </head>
 
@@ -31,9 +31,9 @@
                     <li><a href="/users"><span class="glyphicon glyphicon-user"></span> Users</a></li>
                   </ul>
                   <ul class="nav navbar-nav navbar-right">
-                        <li ng-if="!auth.loggedIn"><a href="/login">Login</a></li>
+                        <li ng-if="!auth.loggedIn"><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                         <li ng-if="auth.loggedIn" class="navbar-text">Hello {{ auth.user.username }}!</li>
-                        <li ng-if="auth.loggedIn"><a href="#" ng-click="auth.doLogout()">Logout</a></li>
+                        <li ng-if="auth.loggedIn"><a href="#" ng-click="auth.doLogout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                     </ul>
                 </div><!-- /navbar-collapse -->
               </div><!-- /container-fluid -->

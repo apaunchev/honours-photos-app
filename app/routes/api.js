@@ -1,6 +1,7 @@
 // app/routes/api.js
 
 var config = require('../../config'),
+    secret = config.secret,
     jwt = require('jsonwebtoken'),
     User = require('../models/user'),
     Photo = require('../models/photo'),
@@ -21,7 +22,7 @@ module.exports = function(app, express) {
             if (!user) {
                 res.json({
                     success: false,
-                    message: 'Authentication failed; user not found.'
+                    message: 'Authentication failed: user not found.'
                 });
             } else if (user) {
                 // user found; check if password matches
@@ -30,7 +31,7 @@ module.exports = function(app, express) {
                 if (!validPassword) {
                     res.json({
                         success: false,
-                        message: 'Authentication failed; wrong password.'
+                        message: 'Authentication failed: wrong password.'
                     });
                 } else {
                     // user found and password matches
@@ -38,7 +39,7 @@ module.exports = function(app, express) {
                     // create a token
                     var token = jwt.sign({
                         username: user.username
-                    }, config.secret, {
+                    }, secret, {
                         expiresInMinutes: 1440 // expires in 24 hours
                     });
 
@@ -60,7 +61,7 @@ module.exports = function(app, express) {
         // decode token
         if (token) {
             // verify secret and check expiration
-            jwt.verify(token, config.secret, function(err, decoded) {
+            jwt.verify(token, secret, function(err, decoded) {
                 if (err) {
                     res.status(403).send({
                         success: false,

@@ -13,11 +13,12 @@ angular.module('authService', [])
             return $http.post('/api/authenticate', {
                 username: username,
                 password: password
-            }).success(function(data) {
-                AuthToken.setToken(data.token);
+            })
+                .success(function(data) {
+                    AuthToken.setToken(data.token);
 
-                return data;
-            });
+                    return data;
+                });
         };
 
         // handle logout
@@ -56,7 +57,7 @@ angular.module('authService', [])
             return $window.localStorage.getItem('token');
         };
 
-        // set or clear the token
+        // function to set token or clear token
         // if a token is passed, set the token
         // if there is no token, clear it from local storage
         authTokenFactory.setToken = function(token) {
@@ -70,13 +71,15 @@ angular.module('authService', [])
     })
 
     // application configuration to integrate token into requests
-    .factory('AuthInterceptor', function($q, AuthToken) {
+    .factory('AuthInterceptor', function($q, $location, AuthToken) {
         var interceptorFactory = {};
 
-        // happens on all HTTP requests
+        // this will happen on all HTTP requests
         interceptorFactory.request = function(config) {
             // grab the token
             var token = AuthToken.getToken();
+
+            console.log(token);
 
             // if the token exists, add it to the header as x-access-token
             if (token)
