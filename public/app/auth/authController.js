@@ -1,3 +1,5 @@
+// public/app/components/auth/authController.js
+
 angular.module('authController', [])
 
     .controller('authController', function($rootScope, $location, Auth) {

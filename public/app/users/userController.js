@@ -1,3 +1,5 @@
+// public/app/components/users/userController.js
+
 angular.module('userController', ['userService'])
 
     // user controller for the main page

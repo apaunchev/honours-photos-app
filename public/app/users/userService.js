@@ -1,3 +1,5 @@
+// public/app/users/userService.js
+
 angular.module('userService', [])
 
     .factory('User', function($http) {

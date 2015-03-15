@@ -1,3 +1,5 @@
+// public/app/auth/authService.js
+
 angular.module('authService', [])
 
     // auth factory to log in and get information
