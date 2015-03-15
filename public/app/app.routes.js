@@ -23,7 +23,6 @@ angular.module('app.routes', ['ngRoute'])
                 controllerAs: 'photo'
             })
 
-            // form to create/edit a new photo
             .when('/photos/create', {
                 templateUrl: '/app/photos/views/single.html',
                 controller: 'photoCreateController',
@@ -42,16 +41,9 @@ angular.module('app.routes', ['ngRoute'])
                 controllerAs: 'user'
             })
 
-            // form to create/edit a new user
-            .when('/users/create', {
-                templateUrl: '/app/users/views/single.html',
-                controller: 'userCreateController',
-                controllerAs: 'user'
-            })
-
-            .when('/users/:user_id', {
-                templateUrl: '/app/users/views/single.html',
-                controller: 'userEditController',
+            .when('/users/:user_id/photos', {
+                templateUrl: '/app/users/views/photos.html',
+                controller: 'userPhotosController',
                 controllerAs: 'user'
             });
 

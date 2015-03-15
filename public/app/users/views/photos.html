@@ -1,0 +1,16 @@
+<div class="page-header" ng-show="user">
+    <h1>{{ user.user.username }}’s Photos</h1>
+</div>
+
+<div class="jumbotron text-center" ng-show="user.processing">
+    <span class="glyphicon glyphicon-repeat spinner"></span>
+    <p>Loading photos...</p>
+</div>
+
+<div class="photos row" ng-show="user.photos">
+    <div class="col-xs-6 col-md-3" ng-repeat="photo in user.photos">
+        <a href="/photos/{{ photo._id }}" class="thumbnail">
+            <img src="/assets/images/{{ photo.url }}" alt="{{ photo.url }}">
+        </a>
+    </div>
+</div>

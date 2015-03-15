@@ -39,7 +39,6 @@ angular.module('app.routes', ['ngRoute'])
                 controllerAs: 'photo'
             })
 
-            // form to create/edit a new photo
             .when('/photos/create', {
                 templateUrl: '/app/photos/views/single.html',
                 controller: 'photoCreateController',
@@ -58,16 +57,9 @@ angular.module('app.routes', ['ngRoute'])
                 controllerAs: 'user'
             })
 
-            // form to create/edit a new user
-            .when('/users/create', {
-                templateUrl: '/app/users/views/single.html',
-                controller: 'userCreateController',
-                controllerAs: 'user'
-            })
-
-            .when('/users/:user_id', {
-                templateUrl: '/app/users/views/single.html',
-                controller: 'userEditController',
+            .when('/users/:user_id/photos', {
+                templateUrl: '/app/users/views/photos.html',
+                controller: 'userPhotosController',
                 controllerAs: 'user'
             });
 
@@ -202,8 +194,6 @@ angular.module('authService', [])
             // grab the token
             var token = AuthToken.getToken();
 
-            console.log(token);
-
             // if the token exists, add it to the header as x-access-token
             if (token)
                 config.headers['x-access-token'] = token;
@@ -298,96 +288,31 @@ angular.module('userController', ['userService'])
     .controller('userController', function(User) {
         var vm = this;
 
-        // set a processing variable to show loading things
         vm.processing = true;
 
         // grab all the users at page load
         User.all()
             .success(function(data) {
-                // when all the users come back, unset the processing variable
                 vm.processing = false;
-
-                // bind the users that came back to vm.users
                 vm.users = data;
             });
-
-        // delete user
-        vm.deleteUser = function(id) {
-            vm.processing = true;
-
-            // accepts the user id as a parameter
-            User.delete(id)
-                .success(function(data) {
-                    // get all users to update the table
-                    User.all().
-                        success(function(data) {
-                            vm.processing = false;
-                            vm.users = data;
-                        });
-                });
-        };
     })
 
-    // controller applied to user creation page
-    .controller('userCreateController', function(User) {
+    .controller('userPhotosController', function($routeParams, User) {
         var vm = this;
 
-        // variable to hide/show elements of the view
-        // differentiates between create and edit pages
-        vm.type = 'create';
+        vm.processing = true;
 
-        // function to create user
-        vm.saveUser = function() {
-            vm.processing = true;
-
-            // clear the message
-            vm.message = '';
-
-            // use the create function in the userService
-            User.create(vm.userData)
-                .success(function(data) {
-                    vm.processing = false;
-
-                    // clear the form
-                    vm.userData = {};
-                    vm.message = data.message;
-                });
-        };
-    })
-
-    // controller applied to user edit page
-    .controller('userEditController', function($routeParams, User) {
-        var vm = this;
-
-        // variable to hide/show elements of the view
-        // differentiates between create and edit pages
-        vm.type = 'edit';
-
-        // get the user data for the user you want to edit
-        // $routeParams is the way we grab data from the URL
         User.get($routeParams.user_id)
             .success(function(data) {
-                vm.userData = data;
+                vm.user = data;
+
+                User.photos($routeParams.user_id)
+                    .success(function(data) {
+                        vm.processing = false;
+                        vm.photos = data;
+                    });
             });
-
-
-        // function to save the user
-        vm.saveUser = function() {
-            vm.processing = true;
-            vm.message = '';
-
-            // call the userService function to update
-            User.update($routeParams.user_id, vm.userData)
-                .success(function(data) {
-                    vm.processing = false;
-
-                    // clear the form
-                    vm.userData = {};
-
-                    // bind the message from our API to vm.message
-                    vm.message = data.message;
-                });
-        };
     });
 
 angular.module('userService', [])
@@ -406,19 +331,9 @@ angular.module('userService', [])
             return $http.get('/api/users');
         };
 
-        // create a user
-        userFactory.create = function(userData) {
-            return $http.post('/api/users', userData);
-        };
-
-        // update a user
-        userFactory.update = function(id, userData) {
-            return $http.put('/api/users/' + id, userData);
-        };
-
-        // delete a user
-        userFactory.delete = function(id) {
-            return $http.delete('/api/users/' + id);
+        // get all photos by user
+        userFactory.photos = function(id) {
+            return $http.get('/api/users/' + id + '/photos');
         };
 
         // return our entire userFactory object
