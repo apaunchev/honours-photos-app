@@ -1,5 +1,11 @@
 <div class="page-header" ng-show="user">
-    <h1>{{ user.user.username }}’s Photos</h1>
+    <h1>
+    {{ user.user.username }}’s Photos
+    <a href="/photos/add" class="btn btn-primary" ng-show="user.canEdit">
+        <span class="glyphicon glyphicon-plus"></span>
+        Add Photo
+    </a>
+    </h1>
 </div>
 
 <div class="jumbotron text-center" ng-show="user.processing">
