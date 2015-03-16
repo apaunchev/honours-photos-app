@@ -33,7 +33,7 @@ angular.module('authController', [])
 
                     // if a user successfully logs in, redirect to users page
                     if (data.success)
-                        $location.path('/');
+                        $location.path('/photos');
                     else
                         vm.error = data.message;
                 });
