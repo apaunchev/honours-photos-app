@@ -13,6 +13,8 @@
     <p>Loading photos...</p>
 </div>
 
+<p class="bg-info" ng-show="photo.photos.length == 0">No photos yet.</p>
+
 <div class="photos row" ng-show="photo.photos">
     <div class="col-xs-6 col-md-3" ng-repeat="photo in photo.photos">
         <a href="/photos/{{ photo._id }}" class="thumbnail">

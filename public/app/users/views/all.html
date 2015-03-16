@@ -7,6 +7,8 @@
     <p>Loading users...</p>
 </div>
 
+<p class="bg-info" ng-show="user.users.length == 0">No users yet.</p>
+
 <ul ng-show="user.users">
     <li ng-repeat="user in user.users">
         <a ng-href="/users/{{ user._id }}/photos">{{ user.username }}</a>
