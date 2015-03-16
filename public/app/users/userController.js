@@ -17,7 +17,7 @@ angular.module('userController', ['userService'])
             });
     })
 
-    .controller('userPhotosController', function($scope, $routeParams, User) {
+    .controller('userPhotosController', function($scope, $routeParams, User, Photo) {
         var vm = this;
 
         vm.canEdit = false;
@@ -36,4 +36,19 @@ angular.module('userController', ['userService'])
                         vm.photos = data;
                     });
             });
+
+        // delete a specific photo
+        vm.deletePhoto = function(id) {
+            vm.processing = true;
+
+            Photo.delete(id)
+                .success(function(data) {
+                    // get the user's photos again to update the view
+                    User.photos($routeParams.user_id)
+                        .success(function(data) {
+                            vm.processing = false;
+                            vm.photos = data;
+                        });
+                });
+        };
     });

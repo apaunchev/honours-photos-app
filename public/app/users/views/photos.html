@@ -18,8 +18,8 @@
         <div class="thumbnail" ng-show="user.canEdit">
             <img src="{{ photo.url }}" alt="{{ photo.url }}">
             <div class="caption text-center">
-                <a href="#" class="btn btn-primary" role="button">Edit</a>
-                <a href="#" class="btn btn-danger" role="button">Delete</a>
+                <a href="/photos/{{ photo.id }}" class="btn btn-primary" role="button">Edit</a>
+                <a href="#" ng-click="user.deletePhoto(photo._id)" class="btn btn-danger" role="button">Delete</a>
             </div>
         </div>
 
