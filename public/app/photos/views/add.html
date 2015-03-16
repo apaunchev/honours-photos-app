@@ -19,15 +19,10 @@
 
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-6">
-            <button type="submit" class="btn btn-success btn-block">Save Photo</button>
+            <button type="submit" class="btn btn-success btn-block">
+                <span ng-if="!photo.processing">Save Photo</span>
+                <span ng-if="photo.processing" class="spinner"><span class="glyphicon glyphicon-repeat"></span></span>
+            </button>
         </div>
     </div>
 </form>
-
-<div class="row show-hide-message" ng-show="photo.message">
-    <div class="col-sm-6 col-sm-offset-2">
-        <div class="alert alert-info">
-            {{ photo.message }}
-        </div>
-    </div>
-</div>
