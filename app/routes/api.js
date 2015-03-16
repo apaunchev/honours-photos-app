@@ -38,6 +38,7 @@ module.exports = function(app, express) {
 
                     // create a token
                     var token = jwt.sign({
+                        id: user._id,
                         username: user.username
                     }, secret, {
                         expiresInMinutes: 1440 // expires in 24 hours
