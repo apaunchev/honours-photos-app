@@ -6,9 +6,9 @@ angular.module('app.routes', ['ngRoute'])
         $routeProvider
 
             .when('/', {
-                templateUrl: '/app/photos/views/all.html',
-                controller: 'photoController',
-                controllerAs: 'photo'
+                templateUrl: '/app/home.html',
+                controller: 'authController',
+                controllerAs: 'auth'
             })
 
             .when('/login', {
