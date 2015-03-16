@@ -3,7 +3,6 @@
 angular.module('photoService', [])
 
     .factory('Photo', function($http) {
-        // create a new object
         var photoFactory = {};
 
         // get a single photo
