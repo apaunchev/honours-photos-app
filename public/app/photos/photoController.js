@@ -23,19 +23,17 @@ angular.module('photoController', ['photoService'])
             });
     })
 
-    .controller('photoAddController', function($scope, Auth, Photo) {
+    .controller('photoAddController', function($scope, $location, Auth, Photo) {
         var vm = this;
 
         vm.savePhoto = function() {
             vm.processing = true;
             vm.photoData._user = $scope.auth.user.id;
-            vm.message = '';
 
             Photo.create(vm.photoData)
                 .success(function(data) {
                     vm.processing = false;
-                    vm.photoData = {};
-                    vm.message = data.message;
+                    $location.path('/users/' + $scope.auth.user.id + '/photos');
                 });
         };
     });
