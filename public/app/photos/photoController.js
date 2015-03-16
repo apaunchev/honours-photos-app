@@ -5,15 +5,11 @@ angular.module('photoController', ['photoService'])
     .controller('photoController', function(Photo) {
         var vm = this;
 
-        // set a processing variable to show loading things
         vm.processing = true;
 
-        // grab all photos at page load
         Photo.all()
             .success(function(data) {
                 vm.processing = false;
-
-                // bind the photos that came back
                 vm.photos = data;
             });
     })
@@ -23,6 +19,23 @@ angular.module('photoController', ['photoService'])
 
         Photo.get($routeParams.photo_id)
             .success(function(data) {
-                vm.photoData = data;
+                vm.photo = data;
             });
+    })
+
+    .controller('photoAddController', function($scope, Auth, Photo) {
+        var vm = this;
+
+        vm.savePhoto = function() {
+            vm.processing = true;
+            vm.photoData._user = $scope.auth.user.id;
+            vm.message = '';
+
+            Photo.create(vm.photoData)
+                .success(function(data) {
+                    vm.processing = false;
+                    vm.photoData = {};
+                    vm.message = data.message;
+                });
+        };
     });

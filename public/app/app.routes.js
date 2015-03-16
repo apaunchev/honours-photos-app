@@ -23,9 +23,9 @@ angular.module('app.routes', ['ngRoute'])
                 controllerAs: 'photo'
             })
 
-            .when('/photos/create', {
-                templateUrl: '/app/photos/views/single.html',
-                controller: 'photoCreateController',
+            .when('/photos/add', {
+                templateUrl: '/app/photos/views/add.html',
+                controller: 'photoAddController',
                 controllerAs: 'photo'
             })
 
