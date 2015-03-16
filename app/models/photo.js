@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 
 // define photo schema
 var PhotoSchema = new Schema({
-    _user:   { type: Schema.Types.ObjectId, ref: 'User' },
+    _user:   { type: Schema.Types.ObjectId, ref: 'User', required: true },
     url:     { type: String, required: true, index: { unique: true } },
     caption: String
 });

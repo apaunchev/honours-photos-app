@@ -5,8 +5,8 @@ var mongoose = require('mongoose'),
 
 // define comment schema
 var CommentSchema = new Schema({
-    _user:   { type: Schema.Types.ObjectId, ref: 'User' },
-    _photo:  { type: Schema.Types.ObjectId, ref: 'Photo' },
+    _user:   { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    _photo:  { type: Schema.Types.ObjectId, ref: 'Photo', required: true },
     content: { type: String, required: true }
 });
 
