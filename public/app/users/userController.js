@@ -17,14 +17,18 @@ angular.module('userController', ['userService'])
             });
     })
 
-    .controller('userPhotosController', function($routeParams, User) {
+    .controller('userPhotosController', function($scope, $routeParams, User) {
         var vm = this;
 
+        vm.canEdit = false;
         vm.processing = true;
 
         User.get($routeParams.user_id)
             .success(function(data) {
                 vm.user = data;
+
+                if (vm.user._id == $scope.auth.user.id)
+                    vm.canEdit = true;
 
                 User.photos($routeParams.user_id)
                     .success(function(data) {
