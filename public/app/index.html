@@ -33,6 +33,7 @@
                   <ul class="nav navbar-nav navbar-right">
                         <li ng-if="!auth.loggedIn"><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                         <li ng-if="auth.loggedIn" class="navbar-text">Hello {{ auth.user.username }}!</li>
+                        <li ng-if="auth.loggedIn"><a href="/users/{{ auth.user.id }}/photos"><span class="glyphicon glyphicon-picture"></span> My Photos</a></li>
                         <li ng-if="auth.loggedIn"><a href="#" ng-click="auth.doLogout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                     </ul>
                 </div><!-- /navbar-collapse -->
