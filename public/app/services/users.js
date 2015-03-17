@@ -1,6 +1,4 @@
-// public/app/users/userService.js
-
-angular.module('userService', [])
+angular.module('services.users', [])
 
     .factory('User', function($http) {
         // create a new object

@@ -1,6 +1,4 @@
-// public/app/components/users/userController.js
-
-angular.module('userController', ['userService'])
+angular.module('users', ['services.users'])
 
     // user controller for the main page
     // inject the User factory

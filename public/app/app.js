@@ -1,14 +1,9 @@
-// public/app/app.js
-
-angular.module('photosApp', [
+angular.module('app', [
     'app.routes',
-    'services.breadcrumbs',
-    'authService',
-    'authController',
-    'userService',
-    'userController',
-    'photoService',
-    'photoController'
+    'auth',
+    'photos',
+    'users',
+    'services.breadcrumbs'
 ])
     .config(function($httpProvider) {
         // attach the auth interceptor to all http requests

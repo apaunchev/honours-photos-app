@@ -1,6 +1,4 @@
-// public/app/components/photos/photoController.js
-
-angular.module('photoController', ['photoService'])
+angular.module('photos', ['services.photos'])
 
     .controller('photoController', function(Photo) {
         var vm = this;

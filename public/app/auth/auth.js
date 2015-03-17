@@ -1,6 +1,4 @@
-// public/app/components/auth/authController.js
-
-angular.module('authController', [])
+angular.module('auth', ['services.auth'])
 
     .controller('authController', function($rootScope, $scope, $location, breadcrumbs, Auth) {
         var vm = this;

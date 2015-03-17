@@ -1,6 +1,4 @@
-// public/app/auth/authService.js
-
-angular.module('authService', [])
+angular.module('services.auth', [])
 
     // auth factory to log in and get information
     // inject $http for communicating with the API

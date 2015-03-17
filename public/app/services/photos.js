@@ -1,6 +1,4 @@
-// public/app/photos/photoService.js
-
-angular.module('photoService', [])
+angular.module('services.photos', [])
 
     .factory('Photo', function($http) {
         var photoFactory = {};
