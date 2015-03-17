@@ -1,9 +1,0 @@
-/**
- * STYLE.SCSS
- */
-html {
-  font-family: sans-serif; }
-
-.photo img {
-  max-width: 100%;
-  height: auto; }
