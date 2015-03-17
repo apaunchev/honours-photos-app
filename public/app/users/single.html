@@ -18,9 +18,8 @@
 <div class="photos row" ng-show="user.photos">
     <div class="col-xs-6 col-md-3" ng-repeat="photo in user.photos">
         <div class="thumbnail" ng-show="user.canEdit">
-            <img src="{{ photo.url }}" alt="{{ photo.url }}">
+            <a href="/photos/{{ photo._id }}"><img src="{{ photo.url }}" alt="{{ photo.url }}"></a>
             <div class="caption text-center">
-                <a href="/photos/{{ photo._id }}" class="btn btn-primary" role="button">View</a>
                 <a href="/photos/{{ photo._id }}/edit" class="btn btn-primary" role="button">Edit</a>
                 <a href="#" ng-click="user.deletePhoto(photo._id)" class="btn btn-danger" role="button">Delete</a>
             </div>
