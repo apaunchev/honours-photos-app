@@ -1,5 +1,11 @@
 <div class="page-header">
-    <h1>Viewing Photo</h1>
+    <h1>
+        Viewing Photo
+        <a href="/photos/{{ photo.photo._id }}/edit" class="btn btn-primary" ng-show="photo.canEdit">
+            <span class="glyphicon glyphicon-plus"></span>
+            Edit Photo
+        </a>
+    </h1>
 </div>
 
 <div class="row" ng-show="photo.photo">

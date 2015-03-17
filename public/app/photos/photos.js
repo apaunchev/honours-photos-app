@@ -12,8 +12,10 @@ angular.module('photos', ['services.photos'])
             });
     })
 
-    .controller('photoViewController', function($routeParams, Photo, User) {
+    .controller('photoViewController', function($scope, $routeParams, Photo, User) {
         var vm = this;
+
+        vm.canEdit = false;
 
         Photo.get($routeParams.photo_id)
             .success(function(data) {
@@ -22,6 +24,9 @@ angular.module('photos', ['services.photos'])
                 User.get(vm.photo._user)
                     .success(function(data) {
                         vm.user = data;
+
+                        if (vm.user._id == $scope.auth.user.id)
+                            vm.canEdit = true;
                     });
             });
     })
@@ -56,7 +61,7 @@ angular.module('photos', ['services.photos'])
             Photo.update($routeParams.photo_id, vm.photoData)
                 .success(function(data) {
                     vm.processing = false;
-                    $location.path('/users/' + $scope.auth.user.id);
+                    $location.path('/photos/' + vm.photoData._id);
                 });
         };
     });
