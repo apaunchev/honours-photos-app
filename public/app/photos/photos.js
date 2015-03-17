@@ -36,7 +36,7 @@ angular.module('photos', ['services.photos'])
             Photo.create(vm.photoData)
                 .success(function(data) {
                     vm.processing = false;
-                    $location.path('/users/' + $scope.auth.user.id + '/photos');
+                    $location.path('/users/' + $scope.auth.user.id);
                 });
         };
     })
@@ -56,7 +56,7 @@ angular.module('photos', ['services.photos'])
             Photo.update($routeParams.photo_id, vm.photoData)
                 .success(function(data) {
                     vm.processing = false;
-                    $location.path('/users/' + $scope.auth.user.id + '/photos');
+                    $location.path('/users/' + $scope.auth.user.id);
                 });
         };
     });
