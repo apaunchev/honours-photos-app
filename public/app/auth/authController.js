@@ -2,8 +2,10 @@
 
 angular.module('authController', [])
 
-    .controller('authController', function($rootScope, $location, Auth) {
+    .controller('authController', function($rootScope, $scope, $location, breadcrumbs, Auth) {
         var vm = this;
+
+        $scope.breadcrumbs = breadcrumbs;
 
         // get info if a user is logged in
         vm.loggedIn = Auth.isLoggedIn();

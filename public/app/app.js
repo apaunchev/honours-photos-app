@@ -2,6 +2,7 @@
 
 angular.module('photosApp', [
     'app.routes',
+    'services.breadcrumbs',
     'authService',
     'authController',
     'userService',
