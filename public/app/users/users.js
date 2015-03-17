@@ -19,7 +19,6 @@ angular.module('users', ['services.users'])
         var vm = this;
 
         vm.canEdit = false;
-        vm.processing = true;
 
         User.get($routeParams.user_id)
             .success(function(data) {
@@ -30,7 +29,6 @@ angular.module('users', ['services.users'])
 
                 User.photos($routeParams.user_id)
                     .success(function(data) {
-                        vm.processing = false;
                         vm.photos = data;
                     });
             });
