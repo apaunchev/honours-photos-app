@@ -1,6 +1,5 @@
-// app/models/user.js
-
 var mongoose = require('mongoose'),
+    timestamp = require('mongoose-timestamp'),
     Schema = mongoose.Schema;
 
 var bcrypt = require('bcrypt-nodejs');
@@ -10,6 +9,8 @@ var UserSchema = new Schema({
     username: { type: String, required: true, index: { unique: true } },
     password: { type: String, required: true, select: false }
 });
+
+UserSchema.plugin(timestamp);
 
 // hash the password before saving a user
 UserSchema.pre('save', function(next) {
