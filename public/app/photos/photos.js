@@ -12,12 +12,17 @@ angular.module('photos', ['services.photos'])
             });
     })
 
-    .controller('photoViewController', function($routeParams, Photo) {
+    .controller('photoViewController', function($routeParams, Photo, User) {
         var vm = this;
 
         Photo.get($routeParams.photo_id)
             .success(function(data) {
                 vm.photo = data;
+
+                User.get(vm.photo._user)
+                    .success(function(data) {
+                        vm.user = data;
+                    });
             });
     })
 
