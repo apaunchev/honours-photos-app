@@ -15,13 +15,27 @@
         </div>
     </div>
     <div class="col-md-6">
-        <dl>
-            <dt>Caption</dt>
-            <dd><p>{{ photo.photo.caption }}</p></dd>
-            <dt>Author</dt>
-            <dd><p><a href="/users/{{ photo.user._id }}">{{ photo.user.username }}</a></p></dd>
-            <dt>Comments</dt>
-            <dd><p>...</p></dd>
-        </dl>
+        <h3><a href="/users/{{ photo.user._id }}">{{ photo.user.username }}</a></h3>
+        <p>{{ photo.photo.createdAt | date:'medium' }} <span ng-show="photo.photo.updatedAt != photo.photo.createdAt">(updated {{ photo.photo.updatedAt | date:'medium' }})</span></p>
+        <p>{{ photo.photo.caption }}</p>
+        <hr>
+        <form class="form-inline" name="addCommentForm" ng-submit="photo.saveComment()">
+            <div class="form-group">
+                <label for="commentText" class="sr-only">Comment</label>
+                <input type="text" id="commentText" class="form-control" ng-model="photo.commentData.content" placeholder="Leave a comment..." required>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-default">
+                    <span ng-if="!photo.processing">Save Commment</span>
+                    <span ng-if="photo.processing" class="spinner"><span class="glyphicon glyphicon-repeat"></span></span>
+                </button>
+            </div>
+        </form>
+        <ol ng-show="photo.comments">
+            <li ng-repeat="comment in photo.comments">
+                <p>{{ comment.content }}</p>
+            </li>
+        </ol>
     </div>
 </div>

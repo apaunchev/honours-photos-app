@@ -28,5 +28,10 @@ angular.module('services.photos', [])
             return $http.delete('/api/photos/' + id);
         };
 
+        // get photo's comments
+        photoFactory.getComments = function(id) {
+            return $http.get('/api/photos/' + id + '/comments');
+        };
+
         return photoFactory;
     });

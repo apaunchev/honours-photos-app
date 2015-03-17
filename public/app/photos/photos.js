@@ -1,4 +1,4 @@
-angular.module('photos', ['services.photos'])
+angular.module('photos', ['services.photos', 'services.comments'])
 
     .controller('photoController', function(Photo) {
         var vm = this;
@@ -12,15 +12,17 @@ angular.module('photos', ['services.photos'])
             });
     })
 
-    .controller('photoViewController', function($scope, $routeParams, Photo, User) {
+    .controller('photoViewController', function($scope, $route, $routeParams, Photo, User, Comment) {
         var vm = this;
 
         vm.canEdit = false;
 
+        // get the photo
         Photo.get($routeParams.photo_id)
             .success(function(data) {
                 vm.photo = data;
 
+                // get the photo's user
                 User.get(vm.photo._user)
                     .success(function(data) {
                         vm.user = data;
@@ -28,7 +30,25 @@ angular.module('photos', ['services.photos'])
                         if (vm.user._id == $scope.auth.user.id)
                             vm.canEdit = true;
                     });
+
+                // get the photo's comments
+                Photo.getComments($routeParams.photo_id)
+                    .success(function(data) {
+                        vm.comments = data;
+                    });
             });
+
+        vm.saveComment = function() {
+            vm.processing = true;
+            vm.commentData._user = $scope.auth.user.id;
+            vm.commentData._photo = vm.photo._id;
+
+            Comment.create(vm.commentData)
+                .success(function(data) {
+                    vm.processing = false;
+                    $route.reload();
+                });
+        };
     })
 
     .controller('photoAddController', function($scope, $location, Photo) {
