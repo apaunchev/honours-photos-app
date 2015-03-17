@@ -45,8 +45,8 @@ angular.module('app.routes', ['ngRoute'])
                 controllerAs: 'user'
             })
 
-            .when('/users/:user_id/photos', {
-                templateUrl: '/app/users/photos.html',
+            .when('/users/:user_id', {
+                templateUrl: '/app/users/single.html',
                 controller: 'userPhotosController',
                 controllerAs: 'user'
             });
