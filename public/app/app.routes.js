@@ -35,6 +35,12 @@ angular.module('app.routes', ['ngRoute'])
                 controllerAs: 'photo'
             })
 
+            .when('/photos/:photo_id/edit', {
+                templateUrl: '/app/photos/views/edit.html',
+                controller: 'photoEditController',
+                controllerAs: 'photo'
+            })
+
             .when('/users', {
                 templateUrl: '/app/users/views/all.html',
                 controller: 'userController',
