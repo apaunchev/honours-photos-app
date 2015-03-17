@@ -2,8 +2,7 @@ angular.module('app', [
     'app.routes',
     'auth',
     'photos',
-    'users',
-    'services.breadcrumbs'
+    'users'
 ])
     .config(function($httpProvider) {
         // attach the auth interceptor to all http requests
