@@ -7,7 +7,7 @@ var gulp       = require('gulp'),
     nodemon    = require('gulp-nodemon');
 
 gulp.task('css', function() {
-    return gulp.src('public/assets/css/style.scss')
+    return gulp.src('public/sass/style.scss')
         .pipe(sass())
         .pipe(rename('style.css'))
         .pipe(gulp.dest('public/assets/css'))
@@ -26,7 +26,7 @@ gulp.task('js', function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch('public/assets/css/style.scss', ['css']);
+    gulp.watch('public/sass/style.scss', ['css']);
     gulp.watch(['server.js', 'public/app/*.js', 'public/app/**/*.js'], ['js']);
 });
 
