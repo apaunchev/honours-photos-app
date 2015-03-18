@@ -15,7 +15,7 @@ angular.module('photos', ['services.photos', 'services.comments'])
     .controller('photoViewController', function($scope, $route, $routeParams, Photo, User, Comment) {
         var vm = this;
 
-        vm.canEdit = false;
+        vm.canEditPhoto = false;
 
         // get the photo
         Photo.get($routeParams.photo_id)
@@ -28,7 +28,7 @@ angular.module('photos', ['services.photos', 'services.comments'])
                         vm.user = data;
 
                         if (vm.user._id == $scope.auth.user.id)
-                            vm.canEdit = true;
+                            vm.canEditPhoto = true;
                     });
 
                 // get the photo's comments

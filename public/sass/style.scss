@@ -6,9 +6,23 @@ html {
     font-family: sans-serif;
 }
 
+/**
+ * Photos.
+ */
+
 .photo {
     img {
         max-width: 100%;
         height: auto;
     }
+}
+
+/**
+ * Comments.
+ */
+
+.comments-list {
+    margin-left: 0;
+    padding-left: 0;
+    list-style-type: none;
 }
