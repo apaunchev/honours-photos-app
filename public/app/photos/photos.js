@@ -32,7 +32,7 @@ angular.module('photos', ['services.photos', 'services.comments'])
                     });
 
                 // get the photo's comments
-                Photo.getComments($routeParams.photo_id)
+                Photo.comments($routeParams.photo_id)
                     .success(function(data) {
                         vm.comments = data;
                     });
@@ -45,8 +45,13 @@ angular.module('photos', ['services.photos', 'services.comments'])
 
             Comment.create(vm.commentData)
                 .success(function(data) {
-                    vm.processing = false;
-                    $route.reload();
+                    // get the comments again to update the view
+                    Photo.comments($routeParams.photo_id)
+                        .success(function(data) {
+                            vm.processing = false;
+                            vm.commentData = {};
+                            vm.comments = data;
+                        });
                 });
         };
     })

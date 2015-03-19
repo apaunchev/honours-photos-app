@@ -29,7 +29,7 @@ angular.module('services.photos', [])
         };
 
         // get photo's comments
-        photoFactory.getComments = function(id) {
+        photoFactory.comments = function(id) {
             return $http.get('/api/photos/' + id + '/comments');
         };
 
