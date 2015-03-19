@@ -1,17 +1,23 @@
 angular.module('users', ['services.users'])
 
-    // user controller for the main page
-    // inject the User factory
-    .controller('userController', function(User) {
-        var vm = this;
+    .controller('userController', function($scope, User) {
+        // var vm = this;
 
-        vm.processing = true;
+        $scope.processing = true;
 
-        // grab all the users at page load
         User.all()
             .success(function(data) {
-                vm.processing = false;
-                vm.users = data;
+
+                $scope.users = data;
+                $scope.users.photos = [];
+
+                angular.forEach($scope.users, function(user, i) {
+                    User.latestPhotos(user._id)
+                        .success(function(data) {
+                            $scope.processing = false;
+                            $scope.users[i].photos = data;
+                        });
+                });
             });
     })
 
@@ -27,20 +33,19 @@ angular.module('users', ['services.users'])
                 if (vm.user._id == $scope.auth.user.id)
                     vm.canEdit = true;
 
-                User.photos($routeParams.user_id)
+                User.allPhotos($routeParams.user_id)
                     .success(function(data) {
                         vm.photos = data;
                     });
             });
 
-        // delete a specific photo
         vm.deletePhoto = function(id) {
             vm.processing = true;
 
             Photo.delete(id)
                 .success(function(data) {
                     // get the user's photos again to update the view
-                    User.photos($routeParams.user_id)
+                    User.allPhotos($routeParams.user_id)
                         .success(function(data) {
                             vm.processing = false;
                             vm.photos = data;

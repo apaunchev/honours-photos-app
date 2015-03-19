@@ -15,8 +15,13 @@ angular.module('services.users', [])
         };
 
         // get all photos by user
-        userFactory.photos = function(id) {
+        userFactory.allPhotos = function(id) {
             return $http.get('/api/users/' + id + '/photos');
+        };
+
+        // get the 4 latest photos by user
+        userFactory.latestPhotos = function(id) {
+            return $http.get('/api/users/' + id + '/photos/latest');
         };
 
         // return our entire userFactory object

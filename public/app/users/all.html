@@ -2,15 +2,25 @@
     <h1>Users</h1>
 </div>
 
-<div class="jumbotron text-center" ng-show="user.processing">
+<div class="jumbotron text-center" ng-show="processing">
     <span class="glyphicon glyphicon-repeat spinner"></span>
     <p>Loading users...</p>
 </div>
 
-<p class="bg-info" ng-show="user.users.length == 0">No users yet.</p>
+<ul class="users-list" ng-show="users">
+    <li ng-repeat="user in users">
+        <h2>
+            <a ng-href="/users/{{ user._id }}"><img src="/assets/images/anonymous.jpg" alt="User" width="40"></a>
+            <a ng-href="/users/{{ user._id }}">{{ user.username }}</a>
+        </h2>
 
-<ul ng-show="user.users">
-    <li ng-repeat="user in user.users">
-        <a ng-href="/users/{{ user._id }}">{{ user.username }}</a>
+        <div class="photos row" ng-show="user.photos">
+            <div class="col-xs-6 col-md-3" ng-repeat="photo in user.photos">
+                <a href="/photos/{{ photo._id }}" class="thumbnail">
+                    <img src="{{ photo.url }}" alt="{{ photo.url }}">
+                </a>
+            </div>
+        </div>
     </li>
+    <li ng-show="users.length == 0">No users yet.</li>
 </ul>

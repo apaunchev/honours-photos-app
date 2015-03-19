@@ -181,6 +181,22 @@ module.exports = function(app, express) {
             });
         });
 
+    // API: /users/:user_id/photos/latest
+    apiRouter.route('/users/:user_id/photos/latest')
+
+        // get the 4 latest photos of the user with that id
+        .get(function(req, res) {
+            User.findById(req.params.user_id, function(err, user) {
+                if (err) res.send(err);
+
+                Photo.find({ _user: user._id }).sort('-createdAt').limit(4).exec(function(err, photos) {
+                    if (err) res.send(err);
+
+                    res.json(photos);
+                });
+            });
+        });
+
     // API: /me
     // endpoint to get information about the logged in user
     apiRouter.get('/me', function(req, res) {
