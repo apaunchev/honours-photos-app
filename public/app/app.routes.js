@@ -22,7 +22,7 @@ angular.module('app.routes', ['ngRoute'])
             })
 
             .when('/photos/add', {
-                templateUrl: '/app/photos/add.html',
+                templateUrl: '/app/photos/manage.html',
                 controller: 'photoAddController',
                 controllerAs: 'photo'
             })
@@ -34,7 +34,7 @@ angular.module('app.routes', ['ngRoute'])
             })
 
             .when('/photos/:photo_id/edit', {
-                templateUrl: '/app/photos/edit.html',
+                templateUrl: '/app/photos/manage.html',
                 controller: 'photoEditController',
                 controllerAs: 'photo'
             })

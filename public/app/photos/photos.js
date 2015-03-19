@@ -53,6 +53,8 @@ angular.module('photos', ['services.photos', 'services.comments'])
     })
 
     .controller('photoAddController', function($scope, $location, Photo) {
+        $scope.type = 'add';
+
         $scope.savePhoto = function() {
             $scope.processing = true;
             $scope.photoData._user = $scope.loggedUser.id;
@@ -66,12 +68,14 @@ angular.module('photos', ['services.photos', 'services.comments'])
     })
 
     .controller('photoEditController', function($scope, $routeParams, $location, Photo) {
+        $scope.type = 'edit';
+
         Photo.get($routeParams.photo_id)
             .success(function(data) {
                 $scope.photoData = data;
             });
 
-        $scope.updatePhoto = function() {
+        $scope.savePhoto = function() {
             $scope.processing = true;
             $scope.photoData._user = $scope.loggedUser.id;
 
