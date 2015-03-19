@@ -1,37 +1,38 @@
 <div class="page-header">
     <h1>
         Viewing Photo
-        <a href="/photos/{{ photo.photo._id }}/edit" class="btn btn-primary" ng-show="photo.canEdit">
+        <a href="/photos/{{ photo._id }}/edit" class="btn btn-primary" ng-show="canEditPhoto">
             <span class="glyphicon glyphicon-plus"></span>
             Edit Photo
         </a>
     </h1>
 </div>
 
-<div class="row" ng-show="photo.photo">
+<div class="row" ng-show="photo">
     <div class="col-md-6">
         <div class="photo">
-            <p><img src="{{ photo.photo.url }}" alt="{{ photo.photo.caption }}"></p>
+            <p><img src="{{ photo.url }}" alt="{{ photo.caption }}"></p>
         </div>
     </div>
+
     <div class="col-md-6">
         <div class="media">
             <div class="media-left">
-                <a href="/users/{{ photo.user._id }}">
+                <a href="/users/{{ user._id }}">
                     <img class="media-object" src="/assets/images/anonymous.jpg" alt="User" width="40">
                 </a>
             </div>
             <div class="media-right">
-                <h4 class="media-heading"><a href="/users/{{ photo.user._id }}">{{ photo.user.username }}</a></h4>
-                <p>{{ photo.photo.createdAt | date:'medium' }} <span ng-show="photo.photo.updatedAt != photo.photo.createdAt">(updated {{ photo.photo.updatedAt | date:'medium' }})</span></p>
-                <p>{{ photo.photo.caption }}</p>
+                <h4 class="media-heading"><a href="/users/{{ user._id }}">{{ user.username }}</a></h4>
+                <p>{{ photo.createdAt | date:'medium' }} <span ng-show="photo.updatedAt != photo.createdAt">(updated {{ photo.updatedAt | date:'medium' }})</span></p>
+                <p>{{ photo.caption }}</p>
             </div>
         </div>
 
         <hr>
 
-        <ol class="comments-list" ng-show="photo.comments">
-            <li ng-repeat="comment in photo.comments">
+        <ol class="comments-list" ng-show="comments">
+            <li ng-repeat="comment in comments">
                 <div class="media">
                     <div class="media-left">
                         <a href="/users/{{ comment._user }}">
@@ -44,19 +45,19 @@
                     </div>
                 </div>
             </li>
-            <li ng-if="photo.comments.length == 0">No comments for this photo yet.</li>
+            <li ng-if="comments.length == 0">No comments for this photo yet.</li>
         </ol>
 
-        <form class="form" name="addCommentForm" ng-submit="photo.saveComment()">
+        <form class="form" name="addCommentForm" ng-submit="saveComment()">
             <div class="form-group">
                 <label for="commentText" class="sr-only">Comment</label>
-                <textarea id="commentText" class="form-control" rows="3" ng-model="photo.commentData.content" placeholder="Leave a comment..." required></textarea>
+                <textarea id="commentText" class="form-control" rows="3" ng-model="commentData.content" placeholder="Leave a comment..." required></textarea>
             </div>
 
             <div class="form-group text-right">
                 <button type="submit" class="btn btn-default">
-                    <span ng-if="!photo.processing">Save Comment</span>
-                    <span ng-if="photo.processing" class="spinner"><span class="glyphicon glyphicon-repeat"></span></span>
+                    <span ng-if="!processing">Save Comment</span>
+                    <span ng-if="processing" class="spinner"><span class="glyphicon glyphicon-repeat"></span></span>
                 </button>
             </div>
         </form>

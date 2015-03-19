@@ -1,92 +1,84 @@
 angular.module('photos', ['services.photos', 'services.comments'])
 
-    .controller('photoController', function(Photo) {
-        var vm = this;
-
-        vm.processing = true;
+    .controller('photoController', function($scope, Photo) {
+        $scope.processing = true;
 
         Photo.all()
             .success(function(data) {
-                vm.processing = false;
-                vm.photos = data;
+                $scope.processing = false;
+                $scope.photos = data;
             });
     })
 
     .controller('photoViewController', function($scope, $route, $routeParams, Photo, User, Comment) {
-        var vm = this;
-
-        vm.canEditPhoto = false;
+        $scope.canEditPhoto = false;
 
         // get the photo
         Photo.get($routeParams.photo_id)
             .success(function(data) {
-                vm.photo = data;
+                $scope.photo = data;
 
                 // get the photo's user
-                User.get(vm.photo._user)
+                User.get($scope.photo._user)
                     .success(function(data) {
-                        vm.user = data;
+                        $scope.user = data;
 
-                        if (vm.user._id == $scope.auth.user.id)
-                            vm.canEditPhoto = true;
+                        if ($scope.user._id == $scope.loggedUser.id)
+                            $scope.canEditPhoto = true;
                     });
 
                 // get the photo's comments
                 Photo.comments($routeParams.photo_id)
                     .success(function(data) {
-                        vm.comments = data;
+                        $scope.comments = data;
                     });
             });
 
-        vm.saveComment = function() {
-            vm.processing = true;
-            vm.commentData._user = $scope.auth.user.id;
-            vm.commentData._photo = vm.photo._id;
+        $scope.saveComment = function() {
+            $scope.processing = true;
+            $scope.commentData._user = $scope.loggedUser.id;
+            $scope.commentData._photo = $scope.photo._id;
 
-            Comment.create(vm.commentData)
+            Comment.create($scope.commentData)
                 .success(function(data) {
                     // get the comments again to update the view
                     Photo.comments($routeParams.photo_id)
                         .success(function(data) {
-                            vm.processing = false;
-                            vm.commentData = {};
-                            vm.comments = data;
+                            $scope.processing = false;
+                            $scope.commentData = {};
+                            $scope.comments = data;
                         });
                 });
         };
     })
 
     .controller('photoAddController', function($scope, $location, Photo) {
-        var vm = this;
+        $scope.savePhoto = function() {
+            $scope.processing = true;
+            $scope.photoData._user = $scope.loggedUser.id;
 
-        vm.savePhoto = function() {
-            vm.processing = true;
-            vm.photoData._user = $scope.auth.user.id;
-
-            Photo.create(vm.photoData)
+            Photo.create($scope.photoData)
                 .success(function(data) {
-                    vm.processing = false;
-                    $location.path('/users/' + $scope.auth.user.id);
+                    $scope.processing = false;
+                    $location.path('/users/' + $scope.loggedUser.id);
                 });
         };
     })
 
-    .controller('photoEditController', function($routeParams, $scope, $location, Photo) {
-        var vm = this;
-
+    .controller('photoEditController', function($scope, $routeParams, $location, Photo) {
         Photo.get($routeParams.photo_id)
             .success(function(data) {
-                vm.photoData = data;
+                $scope.photoData = data;
             });
 
-        vm.updatePhoto = function() {
-            vm.processing = true;
-            vm.photoData._user = $scope.auth.user.id;
+        $scope.updatePhoto = function() {
+            $scope.processing = true;
+            $scope.photoData._user = $scope.loggedUser.id;
 
-            Photo.update($routeParams.photo_id, vm.photoData)
+            Photo.update($routeParams.photo_id, $scope.photoData)
                 .success(function(data) {
-                    vm.processing = false;
-                    $location.path('/photos/' + vm.photoData._id);
+                    $scope.processing = false;
+                    $location.path('/photos/' + $scope.photoData._id);
                 });
         };
     });

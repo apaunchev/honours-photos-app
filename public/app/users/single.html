@@ -1,32 +1,28 @@
 <div class="page-header" ng-show="user">
     <h1>
-    {{ user.user.username }}’s Photos
-    <a href="/photos/add" class="btn btn-primary" ng-show="user.canEdit">
+    {{ user.username }}’s Photos
+    <a href="/photos/add" class="btn btn-primary" ng-show="canEdit">
         <span class="glyphicon glyphicon-plus"></span>
         Add Photo
     </a>
     </h1>
 </div>
 
-<div class="jumbotron text-center" ng-show="user.processing">
+<div class="jumbotron text-center" ng-show="processing">
     <span class="glyphicon glyphicon-repeat spinner"></span>
     <p>Loading photos...</p>
 </div>
 
-<p class="bg-info" ng-show="user.photos.length == 0">No photos yet.</p>
+<p class="bg-info" ng-show="photos.length == 0">No photos yet.</p>
 
-<div class="photos row" ng-show="user.photos">
-    <div class="col-xs-6 col-md-3" ng-repeat="photo in user.photos">
-        <div class="thumbnail" ng-show="user.canEdit">
+<div class="photos row" ng-show="photos">
+    <div class="col-xs-6 col-md-3" ng-repeat="photo in photos">
+        <div class="thumbnail">
             <a href="/photos/{{ photo._id }}"><img src="{{ photo.url }}" alt="{{ photo.url }}"></a>
-            <div class="caption text-center">
+            <div class="caption text-center" ng-show="canEdit">
                 <a href="/photos/{{ photo._id }}/edit" class="btn btn-primary" role="button">Edit</a>
-                <a href="#" ng-click="user.deletePhoto(photo._id)" class="btn btn-danger" role="button">Delete</a>
+                <a href="#" ng-click="deletePhoto(photo._id)" class="btn btn-danger" role="button">Delete</a>
             </div>
         </div>
-
-        <a href="/photos/{{ photo._id }}" class="thumbnail" ng-show="!user.canEdit">
-            <img src="{{ photo.url }}" alt="{{ photo.url }}">
-        </a>
     </div>
 </div>

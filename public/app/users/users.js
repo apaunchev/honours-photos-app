@@ -1,8 +1,6 @@
 angular.module('users', ['services.users'])
 
     .controller('userController', function($scope, User) {
-        // var vm = this;
-
         $scope.processing = true;
 
         User.all()
@@ -22,33 +20,31 @@ angular.module('users', ['services.users'])
     })
 
     .controller('userPhotosController', function($scope, $routeParams, User, Photo) {
-        var vm = this;
-
-        vm.canEdit = false;
+        $scope.canEdit = false;
 
         User.get($routeParams.user_id)
             .success(function(data) {
-                vm.user = data;
+                $scope.user = data;
 
-                if (vm.user._id == $scope.auth.user.id)
-                    vm.canEdit = true;
+                if ($scope.user._id == $scope.loggedUser.id)
+                    $scope.canEdit = true;
 
                 User.allPhotos($routeParams.user_id)
                     .success(function(data) {
-                        vm.photos = data;
+                        $scope.photos = data;
                     });
             });
 
-        vm.deletePhoto = function(id) {
-            vm.processing = true;
+        $scope.deletePhoto = function(id) {
+            $scope.processing = true;
 
             Photo.delete(id)
                 .success(function(data) {
                     // get the user's photos again to update the view
                     User.allPhotos($routeParams.user_id)
                         .success(function(data) {
-                            vm.processing = false;
-                            vm.photos = data;
+                            $scope.processing = false;
+                            $scope.photos = data;
                         });
                 });
         };

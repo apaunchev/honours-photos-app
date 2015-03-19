@@ -2,26 +2,26 @@
     <h1>Edit Photo</h1>
 </div>
 
-<form name="addPhotoForm" class="form-horizontal" ng-submit="photo.updatePhoto()">
+<form name="addPhotoForm" class="form-horizontal" ng-submit="updatePhoto()">
     <div class="form-group">
         <label class="col-sm-2 control-label">URL</label>
         <div class="col-sm-6">
-            <input type="url" name="photoUrl" class="form-control" ng-model="photo.photoData.url" required>
+            <input type="url" name="photoUrl" class="form-control" ng-model="photoData.url" required>
         </div>
     </div>
 
     <div class="form-group">
         <label class="col-sm-2 control-label">Caption</label>
         <div class="col-sm-6">
-            <input type="text" class="form-control" ng-model="photo.photoData.caption" required>
+            <input type="text" class="form-control" ng-model="photoData.caption" required>
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-6">
             <button type="submit" class="btn btn-success btn-block">
-                <span ng-if="!photo.processing">Save Photo</span>
-                <span ng-if="photo.processing" class="spinner"><span class="glyphicon glyphicon-repeat"></span></span>
+                <span ng-if="!processing">Save Photo</span>
+                <span ng-if="processing" class="spinner"><span class="glyphicon glyphicon-repeat"></span></span>
             </button>
         </div>
     </div>

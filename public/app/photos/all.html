@@ -8,15 +8,15 @@
     </h1>
 </div>
 
-<div class="jumbotron text-center" ng-show="photo.processing">
+<div class="jumbotron text-center" ng-show="processing">
     <span class="glyphicon glyphicon-repeat spinner"></span>
     <p>Loading photos...</p>
 </div>
 
-<p class="bg-info" ng-show="photo.photos.length == 0">No photos yet.</p>
+<p class="bg-info" ng-show="photos.length == 0">No photos yet.</p>
 
-<div class="photos row" ng-show="photo.photos">
-    <div class="col-xs-6 col-md-3" ng-repeat="photo in photo.photos">
+<div class="photos row" ng-show="photos">
+    <div class="col-xs-6 col-md-3" ng-repeat="photo in photos">
         <a href="/photos/{{ photo._id }}" class="thumbnail">
             <img src="{{ photo.url }}" alt="{{ photo.url }}">
         </a>

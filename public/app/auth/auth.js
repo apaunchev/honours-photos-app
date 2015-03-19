@@ -1,44 +1,42 @@
 angular.module('auth', ['services.auth'])
 
     .controller('authController', function($rootScope, $scope, $location, Auth) {
-        var vm = this;
-
         // get info if a user is logged in
-        vm.loggedIn = Auth.isLoggedIn();
+        $scope.loggedIn = Auth.isLoggedIn();
 
         // check to see if a user is logged in on every request
         $rootScope.$on('$routeChangeStart', function() {
-            vm.loggedIn = Auth.isLoggedIn();
+            $scope.loggedIn = Auth.isLoggedIn();
 
             // get user information on route change
             Auth.getUser()
                 .then(function(data) {
-                    vm.user = data.data;
+                    $scope.loggedUser = data.data;
                 });
         });
 
         // function to handle login form
-        vm.doLogin = function() {
+        $scope.doLogin = function() {
             // set a processing variable to show loading things
-            vm.processing = true;
+            $scope.processing = true;
 
             // clear the error
-            vm.error = '';
+            $scope.error = '';
 
-            Auth.login(vm.loginData.username, vm.loginData.password)
+            Auth.login($scope.loginData.username, $scope.loginData.password)
                 .success(function(data) {
-                    vm.processing = false;
+                    $scope.processing = false;
 
                     // if a user successfully logs in, redirect to users page
                     if (data.success)
                         $location.path('/photos');
                     else
-                        vm.error = data.message;
+                        $scope.error = data.message;
                 });
         };
 
         // function to handle logging out
-        vm.doLogout = function() {
+        $scope.doLogout = function() {
             Auth.logout();
             $location.path('/');
         };

@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="/assets/css/style.min.css">
     </head>
 
-    <body ng-app="app" ng-controller="authController as auth">
+    <body ng-app="app" ng-controller="authController">
         <header>
             <nav class="navbar navbar-default">
               <div class="container-fluid">
@@ -26,15 +26,15 @@
                 </div>
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                  <ul class="nav navbar-nav" ng-if="auth.loggedIn">
+                  <ul class="nav navbar-nav" ng-if="loggedIn">
                     <li><a href="/photos"><span class="glyphicon glyphicon-picture"></span> Photos</a></li>
                     <li><a href="/users"><span class="glyphicon glyphicon-user"></span> Users</a></li>
                   </ul>
                   <ul class="nav navbar-nav navbar-right">
-                        <li ng-if="!auth.loggedIn"><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                        <li ng-if="auth.loggedIn" class="navbar-text">Hello {{ auth.user.username }}!</li>
-                        <li ng-if="auth.loggedIn"><a href="/users/{{ auth.user.id }}"><span class="glyphicon glyphicon-picture"></span> My Photos</a></li>
-                        <li ng-if="auth.loggedIn"><a href="#" ng-click="auth.doLogout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                        <li ng-if="!loggedIn"><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                        <li ng-if="loggedIn" class="navbar-text">Hello {{ loggedUser.username }}!</li>
+                        <li ng-if="loggedIn"><a href="/users/{{ loggedUser.id }}"><span class="glyphicon glyphicon-picture"></span> My Photos</a></li>
+                        <li ng-if="loggedIn"><a href="#" ng-click="doLogout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                     </ul>
                 </div><!-- /navbar-collapse -->
               </div><!-- /container-fluid -->
