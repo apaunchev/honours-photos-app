@@ -48,6 +48,9 @@
                     <div class="media-right">
                         <p><a href="/users/{{ comment._user }}">{{ comment.user.username }}</a></p>
                         <p>{{ comment.content }}</p>
+                        <a href="/photos/{{ photo._id }}" class="comment-delete-btn" title="Delete comment" role="button" ng-click="deleteComment(comment._id)" ng-show="comment.isOwner">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
                     </div>
                 </div>
             </li>
