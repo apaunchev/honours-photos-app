@@ -7,6 +7,8 @@
     <p>Loading users...</p>
 </div>
 
+<p class="bg-info" ng-show="users.length == 0">No users yet.</p>
+
 <ul class="users-list" ng-show="users">
     <li ng-repeat="user in users">
         <h2>
@@ -22,5 +24,4 @@
             </div>
         </div>
     </li>
-    <li ng-show="users.length == 0">No users yet.</li>
 </ul>
