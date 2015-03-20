@@ -5,7 +5,6 @@ angular.module('users', ['services.users'])
 
         User.all()
             .success(function(data) {
-
                 $scope.users = data;
                 $scope.users.photos = [];
 
@@ -20,14 +19,14 @@ angular.module('users', ['services.users'])
     })
 
     .controller('userPhotosController', function($scope, $routeParams, User, Photo) {
-        $scope.canEdit = false;
+        $scope.isOwner = false;
 
         User.get($routeParams.user_id)
             .success(function(data) {
                 $scope.user = data;
 
                 if ($scope.user._id == $scope.loggedUser.id)
-                    $scope.canEdit = true;
+                    $scope.isOwner = true;
 
                 User.allPhotos($routeParams.user_id)
                     .success(function(data) {

@@ -1,7 +1,7 @@
 <div class="page-header" ng-show="user">
     <h1>
     {{ user.username }}’s Photos
-    <a href="/photos/add" class="btn btn-primary" ng-show="canEdit">
+    <a href="/photos/add" class="btn btn-primary" ng-show="isOwner">
         <span class="glyphicon glyphicon-plus"></span>
         Add Photo
     </a>
@@ -19,9 +19,9 @@
     <div class="col-xs-6 col-md-3" ng-repeat="photo in photos">
         <div class="thumbnail">
             <a href="/photos/{{ photo._id }}"><img src="{{ photo.url }}" alt="{{ photo.url }}"></a>
-            <div class="caption text-center" ng-show="canEdit">
+            <div class="caption text-center" ng-show="isOwner">
                 <a href="/photos/{{ photo._id }}/edit" class="btn btn-primary" role="button">Edit</a>
-                <a href="#" ng-click="deletePhoto(photo._id)" class="btn btn-danger" role="button">Delete</a>
+                <a href="/photos/{{ photo._id }}" class="btn btn-danger" role="button" ng-click="deletePhoto(photo._id)">Delete</a>
             </div>
         </div>
     </div>
