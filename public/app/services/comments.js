@@ -13,5 +13,10 @@ angular.module('services.comments', [])
             return $http.post('/api/comments', commentData);
         };
 
+        // delete a comment
+        commentFactory.delete = function(id) {
+            return $http.delete('/api/comments/' + id);
+        };
+
         return commentFactory;
     });

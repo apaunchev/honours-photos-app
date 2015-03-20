@@ -10,8 +10,8 @@ angular.module('photos', ['services.photos', 'services.comments'])
             });
     })
 
-    .controller('photoViewController', function($scope, $route, $routeParams, Photo, User, Comment) {
-        $scope.canEditPhoto = false;
+    .controller('photoViewController', function($scope, $route, $routeParams, $location, Photo, User, Comment) {
+        $scope.isOwner = false;
 
         // get the photo
         Photo.get($routeParams.photo_id)
@@ -24,13 +24,22 @@ angular.module('photos', ['services.photos', 'services.comments'])
                         $scope.user = data;
 
                         if ($scope.user._id == $scope.loggedUser.id)
-                            $scope.canEditPhoto = true;
+                            $scope.isOwner = true;
                     });
 
                 // get the photo's comments
                 Photo.comments($routeParams.photo_id)
                     .success(function(data) {
                         $scope.comments = data;
+                        $scope.comments.user = [];
+
+                        // get info for comment owners
+                        angular.forEach($scope.comments, function(comment, i) {
+                            User.get(comment._user)
+                                .success(function(data) {
+                                    $scope.comments[i].user = data;
+                                });
+                        });
                     });
             });
 
@@ -47,7 +56,33 @@ angular.module('photos', ['services.photos', 'services.comments'])
                             $scope.processing = false;
                             $scope.commentData = {};
                             $scope.comments = data;
+                            $scope.comments.user = [];
+
+                            // get info for comment owners
+                            angular.forEach($scope.comments, function(comment, i) {
+                                User.get(comment._user)
+                                    .success(function(data) {
+                                        $scope.comments[i].user = data;
+                                    });
+                            });
                         });
+                });
+        };
+
+        $scope.deletePhoto = function(id) {
+            $scope.processing = true;
+
+            // if photo has comments, delete them first
+            if ($scope.comments.length > 0) {
+                angular.forEach($scope.comments, function(comment, i) {
+                    Comment.delete($scope.comments[i]._id);
+                });
+            }
+
+            Photo.delete(id)
+                .success(function(data) {
+                    $scope.processing = false;
+                    $location.path('/users/' + $scope.loggedUser.id);
                 });
         };
     })
