@@ -1,6 +1,6 @@
 angular.module('auth', ['services.auth'])
 
-    .controller('authController', function($rootScope, $scope, $location, Auth) {
+    .controller('authController', function($rootScope, $scope, $location, $route, Auth) {
         // get info if a user is logged in
         $scope.loggedIn = Auth.isLoggedIn();
 
@@ -38,6 +38,10 @@ angular.module('auth', ['services.auth'])
         // function to handle logging out
         $scope.doLogout = function() {
             Auth.logout();
-            $location.path('/');
+
+            if ($location.url() != '/')
+                $location.path('/');
+            else
+                $route.reload();
         };
     });
