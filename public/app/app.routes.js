@@ -15,6 +15,12 @@ angular.module('app.routes', ['ngRoute'])
                 controllerAs: 'auth'
             })
 
+            .when('/signup', {
+                templateUrl: '/app/auth/signup.html',
+                controller: 'authController',
+                controllerAs: 'auth'
+            })
+
             .when('/photos', {
                 templateUrl: '/app/photos/all.html',
                 controller: 'photoController',

@@ -14,6 +14,11 @@ angular.module('services.users', [])
             return $http.get('/api/users');
         };
 
+        // create a user
+        userFactory.create = function(userData) {
+            return $http.post('/api/users', userData);
+        };
+
         // get all photos by user
         userFactory.allPhotos = function(id) {
             return $http.get('/api/users/' + id + '/photos');

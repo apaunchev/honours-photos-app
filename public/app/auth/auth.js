@@ -1,6 +1,8 @@
 angular.module('auth', ['services.auth'])
 
     .controller('authController', function($rootScope, $scope, $location, $route, Auth) {
+        $scope.justSignedUp = false;
+
         // get info if a user is logged in
         $scope.loggedIn = Auth.isLoggedIn();
 
@@ -15,19 +17,31 @@ angular.module('auth', ['services.auth'])
                 });
         });
 
-        // function to handle login form
-        $scope.doLogin = function() {
-            // set a processing variable to show loading things
+        $scope.doSignup = function() {
             $scope.processing = true;
+            $scope.error = '';
 
-            // clear the error
+            Auth.signup($scope.signupData.username, $scope.signupData.password)
+                .success(function(data) {
+                    $scope.processing = false;
+
+                    if (data.success) {
+                        $scope.justSignedUp = true;
+                        $scope.signupData = {};
+                    }
+                    else
+                        $scope.error = data.message;
+                });
+        };
+
+        $scope.doLogin = function() {
+            $scope.processing = true;
             $scope.error = '';
 
             Auth.login($scope.loginData.username, $scope.loginData.password)
                 .success(function(data) {
                     $scope.processing = false;
 
-                    // if a user successfully logs in, redirect to users page
                     if (data.success)
                         $location.path('/photos');
                     else
@@ -35,7 +49,6 @@ angular.module('auth', ['services.auth'])
                 });
         };
 
-        // function to handle logging out
         $scope.doLogout = function() {
             Auth.logout();
 

@@ -7,6 +7,17 @@ angular.module('services.auth', [])
     .factory('Auth', function($http, $q, AuthToken) {
         var authFactory = {};
 
+        // handle signup
+        authFactory.signup = function(username, password) {
+            return $http.post('/api/signup', {
+                username: username,
+                password: password,
+            })
+                .success(function(data) {
+                    return data;
+                });
+        };
+
         // handle login
         authFactory.login = function(username, password) {
             // return the promise object and its data
