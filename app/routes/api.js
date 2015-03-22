@@ -189,7 +189,7 @@ module.exports = function(app, express) {
 
         // get all photos
         .get(function(req, res) {
-            Photo.find(function(err, photos) {
+            Photo.find().sort('-createdAt').exec(function(err, photos) {
                 if (err) res.send(err);
 
                 res.json(photos);
