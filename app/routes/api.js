@@ -110,11 +110,6 @@ module.exports = function(app, express) {
         }
     });
 
-    // test route to see if API is working
-    apiRouter.get('/', function(req, res) {
-        res.json({ message: 'Hello world.' });
-    });
-
     // API: /users
     apiRouter.route('/users')
 
@@ -136,29 +131,6 @@ module.exports = function(app, express) {
                 if (err) res.send(err);
 
                 res.json(user);
-            });
-        })
-
-        // update the user with that id
-        .put(function(req, res) {
-            User.findById(req.params.user_id, function(err, user) {
-                if (err) res.send(err);
-
-                // update user's info only if it is new
-                if (req.body.username) user.username = req.body.username;
-                if (req.body.password) user.password = req.body.password;
-
-                user.save(function(err) {
-                    if (err) {
-                        // duplicate entry
-                        if (err.code == 11000)
-                            return res.json({ success: false, message: 'A user with that username already exists.' });
-                        else
-                            return res.send(err);
-                    }
-
-                    res.json({ message: 'User updated.' });
-                });
             });
         })
 
