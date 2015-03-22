@@ -12,62 +12,72 @@
     </h1>
 </div>
 
-<div class="row" ng-show="photo">
-    <div class="col-md-6">
-        <div class="photo">
-            <p><img src="{{ photo.url }}" alt="{{ photo.caption }}"></p>
-        </div>
-    </div>
-
-    <div class="col-md-6">
-        <div class="media">
-            <div class="media-left">
-                <a href="/users/{{ user._id }}">
-                    <img class="media-object" src="/assets/images/anonymous.jpg" alt="User" width="40">
-                </a>
-            </div>
-            <div class="media-right">
-                <h4 class="media-heading"><a href="/users/{{ user._id }}">{{ user.username }}</a></h4>
-                <p>{{ photo.createdAt | date:'medium' }} <span ng-show="photo.updatedAt != photo.createdAt">(updated {{ photo.updatedAt | date:'medium' }})</span></p>
-                <p>{{ photo.caption }}</p>
-            </div>
+<div class="photo" ng-show="photo">
+    <div class="row">
+        <div class="col-md-6">
+            <figure>
+                <img src="{{ photo.url }}" alt="{{ photo.caption }}">
+            </figure>
         </div>
 
-        <hr>
-
-        <p class="bg-info" ng-if="comments.length == 0">No comments for this photo yet.</p>
-
-        <ol class="comments-list" ng-show="comments">
-            <li ng-repeat="comment in comments">
-                <div class="media">
-                    <div class="media-left">
-                        <a href="/users/{{ comment._user }}">
-                            <img class="media-object" src="/assets/images/anonymous.jpg" alt="User" width="32">
-                        </a>
-                    </div>
-                    <div class="media-right">
-                        <p><a href="/users/{{ comment._user }}">{{ comment.user.username }}</a></p>
-                        <p>{{ comment.content }}</p>
-                        <a href="/photos/{{ photo._id }}" class="comment-delete-btn" title="Delete comment" role="button" ng-click="deleteComment(comment._id)" ng-show="comment.isOwner">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </a>
-                    </div>
+        <div class="col-md-6">
+            <div class="media">
+                <div class="media-left">
+                    <a href="/users/{{ user._id }}">
+                        <img class="media-object img-circle" src="/assets/images/anonymous.jpg" alt="User" width="40">
+                    </a>
                 </div>
-            </li>
-        </ol>
-
-        <form class="form" name="addCommentForm" ng-submit="saveComment()">
-            <div class="form-group">
-                <label for="commentText" class="sr-only">Comment</label>
-                <textarea id="commentText" class="form-control" rows="3" ng-model="commentData.content" placeholder="Leave a comment..." required></textarea>
+                <div class="media-right">
+                    <h4 class="media-heading"><a href="/users/{{ user._id }}">{{ user.username }}</a></h4>
+                    <p><em>{{ photo.createdAt | date:'d MMMM yyyy' }}</em></p>
+                    <p>{{ photo.caption }}</p>
+                </div>
             </div>
 
-            <div class="form-group text-right">
-                <button type="submit" class="btn btn-default">
-                    <span ng-if="!processing">Save Comment</span>
-                    <span ng-if="processing" class="spinner"><span class="glyphicon glyphicon-repeat"></span></span>
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
+            <hr>
+
+            <div class="comments" ng-show="comments">
+                <div ng-show="comments.length == 0">
+                    <p>No comments yet.</p>
+                </div>
+
+                <h4 ng-show="comments.length > 0">Comments ({{ comments.length }})</h4>
+                <ol class="comments-list" ng-show="comments.length > 0">
+                    <li ng-repeat="comment in comments">
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="/users/{{ comment._user }}">
+                                    <img class="media-object img-circle" src="/assets/images/anonymous.jpg" alt="User" width="32">
+                                </a>
+                            </div>
+                            <div class="media-right">
+                                <h5 class="media-heading"><a href="/users/{{ comment._user }}">{{ comment.user.username }}</a></h5>
+                                <p><em>{{ comment.createdAt | date:'d MMMM yyyy' }}</em></p>
+                                <p>{{ comment.content }}</p>
+                                <a href="/photos/{{ photo._id }}" class="comment-delete-btn text-warning" title="Delete comment" role="button" ng-click="deleteComment(comment._id)" ng-show="comment.isOwner">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+
+                <hr>
+
+                <form class="form" name="addCommentForm" ng-submit="saveComment()">
+                    <div class="form-group">
+                        <label for="commentText" class="sr-only">Comment</label>
+                        <textarea id="commentText" class="form-control" rows="3" ng-model="commentData.content" placeholder="Leave a comment..." required></textarea>
+                    </div>
+
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-default">
+                            <span ng-if="!processing">Save Comment</span>
+                            <span ng-if="processing" class="spinner"><span class="glyphicon glyphicon-repeat"></span></span>
+                        </button>
+                    </div>
+                </form>
+            </div> <!-- /comments -->
+        </div>
+    </div> <!-- /row -->
+</div> <!-- /photo -->

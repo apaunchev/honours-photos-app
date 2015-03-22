@@ -7,13 +7,6 @@ html {
 }
 
 /**
- * Bootstrap.
- */
-p.bg-info {
-    padding: 15px;
-}
-
-/**
  * Photos.
  */
 
@@ -41,6 +34,12 @@ p.bg-info {
  * Comments.
  */
 
+.comments {
+    h4 {
+        margin-bottom: 20px;
+    }
+}
+
 .comments-list {
     margin-left: 0;
     padding-left: 0;
@@ -48,6 +47,7 @@ p.bg-info {
 
     li {
         position: relative;
+        margin-bottom: 15px;
     }
 }
 
