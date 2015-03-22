@@ -28,9 +28,9 @@ angular.module('auth', ['services.auth'])
                     if (data.success) {
                         $scope.justSignedUp = true;
                         $scope.signupData = {};
-                    }
-                    else
+                    } else {
                         $scope.error = data.message;
+                    }
                 });
         };
 

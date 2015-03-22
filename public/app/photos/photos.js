@@ -128,6 +128,7 @@ angular.module('photos', ['services.photos', 'services.comments'])
 
     .controller('photoAddController', function($scope, $location, Photo) {
         $scope.type = 'add';
+        $scope.error = '';
 
         $scope.savePhoto = function() {
             $scope.processing = true;
@@ -136,13 +137,20 @@ angular.module('photos', ['services.photos', 'services.comments'])
             Photo.create($scope.photoData)
                 .success(function(data) {
                     $scope.processing = false;
-                    $location.path('/users/' + $scope.loggedUser.id);
+
+                    if (data.success) {
+                        $location.path('/users/' + $scope.loggedUser.id);
+                    }
+                    else {
+                        $scope.error = data.message;
+                    }
                 });
         };
-    })
+})
 
     .controller('photoEditController', function($scope, $routeParams, $location, Photo) {
         $scope.type = 'edit';
+        $scope.error = '';
 
         Photo.get($routeParams.photo_id)
             .success(function(data) {
@@ -156,7 +164,12 @@ angular.module('photos', ['services.photos', 'services.comments'])
             Photo.update($routeParams.photo_id, $scope.photoData)
                 .success(function(data) {
                     $scope.processing = false;
-                    $location.path('/photos/' + $scope.photoData._id);
+
+                    if (data.success) {
+                        $location.path('/photos/' + $scope.photoData._id);
+                    } else {
+                        $scope.error = data.message;
+                    }
                 });
         };
     });
