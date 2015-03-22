@@ -139,7 +139,10 @@ module.exports = function(app, express) {
             User.remove({ _id: req.params.user_id }, function(err, user) {
                 if (err) res.send(err);
 
-                res.json({ message: 'User deleted.' });
+                res.json({
+                    success: true,
+                    message: 'User deleted.'
+                });
             });
         });
 
@@ -204,12 +207,18 @@ module.exports = function(app, express) {
                 if (err) {
                     // duplicate entry
                     if (err.code == 11000)
-                        return res.json({ success: false, message: 'A photo with that URL already exists.' });
+                        return res.json({
+                            success: false,
+                            message: 'A photo with that URL already exists.'
+                        });
                     else
                         return res.send(err);
                 }
 
-                res.json({ message: 'Photo created.' });
+                res.json({
+                    success: true,
+                    message: 'Photo created.'
+                });
             });
         });
 
@@ -238,12 +247,18 @@ module.exports = function(app, express) {
                     if (err) {
                         // duplicate entry
                         if (err.code == 11000)
-                            return res.json({ success: false, message: 'A photo with that URL already exists.' });
+                            return res.json({
+                                success: false,
+                                message: 'A photo with that URL already exists.'
+                            });
                         else
                             return res.send(err);
                     }
 
-                    res.json({ message: 'Photo updated.' });
+                    res.json({
+                        success: true,
+                        message: 'Photo updated.'
+                    });
                 });
             });
         })
@@ -253,7 +268,10 @@ module.exports = function(app, express) {
             Photo.remove({ _id: req.params.photo_id }, function(err, photo) {
                 if (err) res.send(err);
 
-                res.json({ message: 'Photo deleted.' });
+                res.json({
+                    success: true,
+                    message: 'Photo deleted.'
+                });
             });
         });
 
@@ -286,7 +304,10 @@ module.exports = function(app, express) {
             comment.save(function(err) {
                 if (err) return res.send(err);
 
-                res.json({ message: 'Comment created.' });
+                res.json({
+                    success: true,
+                    message: 'Comment created.'
+                });
             });
         });
 
@@ -307,7 +328,10 @@ module.exports = function(app, express) {
             Comment.remove({ _id: req.params.comment_id }, function(err, comment) {
                 if (err) res.send(err);
 
-                res.json({ message: 'Comment deleted.' });
+                res.json({
+                    success: true,
+                    message: 'Comment deleted.'
+                });
             });
         });
 
