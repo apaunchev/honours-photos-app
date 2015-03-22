@@ -1,11 +1,8 @@
 angular.module('photos', ['services.photos', 'services.comments'])
 
     .controller('photoController', function($scope, Photo) {
-        $scope.processing = true;
-
         Photo.all()
             .success(function(data) {
-                $scope.processing = false;
                 $scope.photos = data;
             });
     })

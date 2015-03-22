@@ -1,8 +1,6 @@
 angular.module('users', ['services.users'])
 
     .controller('userController', function($scope, User) {
-        $scope.processing = true;
-
         User.all()
             .success(function(data) {
                 $scope.users = data;
@@ -11,7 +9,6 @@ angular.module('users', ['services.users'])
                 angular.forEach($scope.users, function(user, i) {
                     User.latestPhotos(user._id)
                         .success(function(data) {
-                            $scope.processing = false;
                             $scope.users[i].photos = data;
                         });
                 });
