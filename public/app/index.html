@@ -31,14 +31,14 @@
                     <li><a href="/users"><span class="glyphicon glyphicon-user"></span> Users</a></li>
                   </ul>
                   <ul class="nav navbar-nav navbar-right" ng-show="!loggedIn">
-                      <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> Signup</a></li>
-                      <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                      <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> Create Account</a></li>
+                      <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>
                   </ul>
                   <ul class="nav navbar-nav navbar-right" ng-show="loggedIn">
                         <li class="navbar-text">Hello, {{ loggedUser.username }}!</li>
                         <li><a href="/users/{{ loggedUser.id }}"><span class="glyphicon glyphicon-picture"></span> My Photos</a></li>
                         <li><a href="/photos/add"><span class="glyphicon glyphicon-plus"></span> New Photo</a></li>
-                        <li><a href="/" ng-click="doLogout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                        <li><a href="/" ng-click="doLogout()"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
                     </ul>
                 </div><!-- /navbar-collapse -->
               </div><!-- /container-fluid -->
