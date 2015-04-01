@@ -128,7 +128,12 @@ module.exports = function(app, express) {
         // get the user with that id
         .get(function(req, res) {
             User.findById(req.params.user_id, function(err, user) {
-                if (err) res.send(err);
+                if (err) {
+                    res.status(404).send({
+                        success: false,
+                        message: 'Requested user not found.'
+                    });
+                }
 
                 res.json(user);
             });
@@ -137,7 +142,12 @@ module.exports = function(app, express) {
         // delete the user with that id
         .delete(function(req, res) {
             User.remove({ _id: req.params.user_id }, function(err, user) {
-                if (err) res.send(err);
+                if (err) {
+                    res.status(404).send({
+                        success: false,
+                        message: 'Requested user not found.'
+                    });
+                }
 
                 res.json({
                     success: true,
@@ -152,7 +162,12 @@ module.exports = function(app, express) {
         // get the photos of the user with that id
         .get(function(req, res) {
             User.findById(req.params.user_id, function(err, user) {
-                if (err) res.send(err);
+                if (err) {
+                    res.status(404).send({
+                        success: false,
+                        message: 'Requested user not found.'
+                    });
+                }
 
                 Photo.find({ _user: user._id }, function(err, photos) {
                     if (err) res.send(err);
@@ -168,7 +183,12 @@ module.exports = function(app, express) {
         // get the 4 latest photos of the user with that id
         .get(function(req, res) {
             User.findById(req.params.user_id, function(err, user) {
-                if (err) res.send(err);
+                if (err) {
+                    res.status(404).send({
+                        success: false,
+                        message: 'Requested user not found.'
+                    });
+                }
 
                 Photo.find({ _user: user._id }).sort('-createdAt').limit(4).exec(function(err, photos) {
                     if (err) res.send(err);
@@ -228,7 +248,12 @@ module.exports = function(app, express) {
         // get the photo with that id
         .get(function(req, res) {
             Photo.findById(req.params.photo_id, function(err, photo) {
-                if (err) res.send(err);
+                if (err) {
+                    res.status(404).send({
+                        success: false,
+                        message: 'Requested photo not found.'
+                    });
+                }
 
                 res.json(photo);
             });
@@ -237,7 +262,12 @@ module.exports = function(app, express) {
         // update the photo with that id
         .put(function(req, res) {
             Photo.findById(req.params.photo_id, function(err, photo) {
-                if (err) res.send(err);
+                if (err) {
+                    res.status(404).send({
+                        success: false,
+                        message: 'Requested photo not found.'
+                    });
+                }
 
                 // update photo's info only if it is new
                 if (req.body.url) photo.url = req.body.url;
@@ -266,7 +296,12 @@ module.exports = function(app, express) {
         // delete the photo with that id
         .delete(function(req, res) {
             Photo.remove({ _id: req.params.photo_id }, function(err, photo) {
-                if (err) res.send(err);
+                if (err) {
+                    res.status(404).send({
+                        success: false,
+                        message: 'Requested photo not found.'
+                    });
+                }
 
                 res.json({
                     success: true,
@@ -281,7 +316,12 @@ module.exports = function(app, express) {
         // get the comments of the photo with that id
         .get(function(req, res) {
             Photo.findById(req.params.photo_id, function(err, photo) {
-                if (err) res.send(err);
+                if (err) {
+                    res.status(404).send({
+                        success: false,
+                        message: 'Requested image not found.'
+                    });
+                }
 
                 Comment.find({ _photo: photo._id }, function(err, comments) {
                     if (err) res.send(err);
@@ -317,7 +357,12 @@ module.exports = function(app, express) {
         // get the comment with that id
         .get(function(req, res) {
             Comment.findById(req.params.comment_id, function(err, comment) {
-                if (err) res.send(err);
+                if (err) {
+                    res.status(404).send({
+                        success: false,
+                        message: 'Requested comment not found.'
+                    });
+                }
 
                 res.json(comment);
             });
@@ -326,7 +371,12 @@ module.exports = function(app, express) {
         // delete the comment with that id
         .delete(function(req, res) {
             Comment.remove({ _id: req.params.comment_id }, function(err, comment) {
-                if (err) res.send(err);
+                if (err) {
+                    res.status(404).send({
+                        success: false,
+                        message: 'Requested comment not found.'
+                    });
+                }
 
                 res.json({
                     success: true,
