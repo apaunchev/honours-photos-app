@@ -137,23 +137,6 @@ module.exports = function(app, express) {
 
                 res.json(user);
             });
-        })
-
-        // delete the user with that id
-        .delete(function(req, res) {
-            User.remove({ _id: req.params.user_id }, function(err, user) {
-                if (err) {
-                    res.status(404).send({
-                        success: false,
-                        message: 'Requested user not found.'
-                    });
-                }
-
-                res.json({
-                    success: true,
-                    message: 'User deleted.'
-                });
-            });
         });
 
     // API: /users/:user_id/photos
