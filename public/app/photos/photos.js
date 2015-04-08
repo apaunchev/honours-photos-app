@@ -60,8 +60,12 @@ angular.module('photos', ['services.photos', 'services.comments'])
         };
 
         $scope.saveComment = function() {
-            $scope.commentData._user = $scope.loggedUser.id;
-            $scope.commentData._photo = $scope.photo._id;
+            $scope.error = '';
+
+            if ($scope.commentData) {
+                $scope.commentData._user = $scope.loggedUser.id;
+                $scope.commentData._photo = $scope.photo._id;
+            }
 
             Comment.create($scope.commentData)
                 .success(function(data) {
@@ -85,11 +89,13 @@ angular.module('photos', ['services.photos', 'services.comments'])
                                     });
                             });
                         });
+                })
+                .error(function(status) {
+                    $scope.error = status.message;
                 });
         };
 
         $scope.deleteComment = function(id) {
-
             Comment.delete(id)
                 .success(function(data) {
                     // get the comments again to update the view
@@ -121,17 +127,16 @@ angular.module('photos', ['services.photos', 'services.comments'])
         $scope.error = '';
 
         $scope.savePhoto = function() {
-            $scope.photoData._user = $scope.loggedUser.id;
+            if ($scope.photoData)
+                $scope.photoData._user = $scope.loggedUser.id;
 
             Photo.create($scope.photoData)
                 .success(function(data) {
-
-                    if (data.success) {
+                    if (data.success)
                         $location.path('/users/' + $scope.loggedUser.id);
-                    }
-                    else {
-                        $scope.error = data.message;
-                    }
+                })
+                .error(function(status) {
+                    $scope.error = status.message;
                 });
         };
 })
@@ -146,16 +151,16 @@ angular.module('photos', ['services.photos', 'services.comments'])
             });
 
         $scope.savePhoto = function() {
-            $scope.photoData._user = $scope.loggedUser.id;
+            if ($scope.photoData)
+                $scope.photoData._user = $scope.loggedUser.id;
 
             Photo.update($routeParams.photo_id, $scope.photoData)
                 .success(function(data) {
-
-                    if (data.success) {
+                    if (data.success)
                         $location.path('/photos/' + $scope.photoData._id);
-                    } else {
-                        $scope.error = data.message;
-                    }
+                })
+                .error(function(status) {
+                    $scope.error = status.message;
                 });
         };
     });

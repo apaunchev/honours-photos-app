@@ -25,9 +25,10 @@ angular.module('auth', ['services.auth'])
                     if (data.success) {
                         $scope.justSignedUp = true;
                         $scope.signupData = {};
-                    } else {
-                        $scope.error = data.message;
                     }
+                })
+                .error(function(status) {
+                    $scope.error = status.message;
                 });
         };
 
@@ -38,8 +39,9 @@ angular.module('auth', ['services.auth'])
                 .success(function(data) {
                     if (data.success)
                         $location.path('/photos');
-                    else
-                        $scope.error = data.message;
+                })
+                .error(function(status) {
+                    $scope.error = status.message;
                 });
         };
 
