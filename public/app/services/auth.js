@@ -105,6 +105,10 @@ angular.module('services.auth', [])
                 $location.path('/login');
             }
 
+            if (response.status == 404) {
+                $location.path('/404');
+            }
+
             // return the errors from the server as a promise
             return $q.reject(response);
         };

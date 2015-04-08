@@ -57,6 +57,10 @@ angular.module('app.routes', ['ngRoute'])
                 controllerAs: 'user'
             });
 
+        $routeProvider.otherwise({
+            templateUrl: '/app/404.html'
+        });
+
         // get rid of the hash in the URL
         $locationProvider.html5Mode(true);
     });
