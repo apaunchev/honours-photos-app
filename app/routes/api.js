@@ -20,7 +20,7 @@ module.exports = function(app, express) {
             if (err) {
                 // duplicate entry
                 if (err.code == 11000)
-                    return res.json({
+                    return res.status(409).json({
                         success: false,
                         message: 'A user with that username already exists.'
                     });
@@ -28,7 +28,7 @@ module.exports = function(app, express) {
                     return res.send(err);
             }
 
-            res.json({
+            return res.json({
                 success: true,
                 message: 'User created.'
             });
@@ -45,7 +45,7 @@ module.exports = function(app, express) {
 
             // if no user with that username was found
             if (!user) {
-                res.json({
+                return res.status(401).json({
                     success: false,
                     message: 'Authentication failed: user not found.'
                 });
@@ -54,7 +54,7 @@ module.exports = function(app, express) {
                 var validPassword = user.comparePassword(req.body.password);
 
                 if (!validPassword) {
-                    res.json({
+                    return res.status(401).json({
                         success: false,
                         message: 'Authentication failed: wrong password.'
                     });
@@ -69,7 +69,7 @@ module.exports = function(app, express) {
                         expiresInMinutes: 1440 // expires in 24 hours
                     });
 
-                    res.json({
+                    return res.json({
                         success: true,
                         message: 'Enjoy your token!',
                         token: token
@@ -89,7 +89,7 @@ module.exports = function(app, express) {
             // verify secret and check expiration
             jwt.verify(token, secret, function(err, decoded) {
                 if (err) {
-                    res.status(403).send({
+                    return res.status(403).send({
                         success: false,
                         message: 'Failed to authenticate token.'
                     });
@@ -103,7 +103,7 @@ module.exports = function(app, express) {
         } else {
             // if there is no token
             // return an HTTP response of 403 (access forbidden) and an error message
-            res.status(403).send({
+            return res.status(403).send({
                 success: false,
                 message: 'No token provided.'
             });
@@ -116,9 +116,9 @@ module.exports = function(app, express) {
         // get all users
         .get(function(req, res) {
             User.find(function(err, users) {
-                if (err) res.send(err);
+                if (err) return res.send(err);
 
-                res.json(users);
+                return res.json(users);
             });
         });
 
@@ -129,13 +129,13 @@ module.exports = function(app, express) {
         .get(function(req, res) {
             User.findById(req.params.user_id, function(err, user) {
                 if (err) {
-                    res.status(404).send({
+                    return res.status(404).send({
                         success: false,
                         message: 'Requested user not found.'
                     });
                 }
 
-                res.json(user);
+                return res.json(user);
             });
         });
 
@@ -146,16 +146,16 @@ module.exports = function(app, express) {
         .get(function(req, res) {
             User.findById(req.params.user_id, function(err, user) {
                 if (err) {
-                    res.status(404).send({
+                    return res.status(404).send({
                         success: false,
                         message: 'Requested user not found.'
                     });
                 }
 
                 Photo.find({ _user: user._id }, function(err, photos) {
-                    if (err) res.send(err);
+                    if (err) return res.send(err);
 
-                    res.json(photos);
+                    return res.json(photos);
                 });
             });
         });
@@ -167,16 +167,16 @@ module.exports = function(app, express) {
         .get(function(req, res) {
             User.findById(req.params.user_id, function(err, user) {
                 if (err) {
-                    res.status(404).send({
+                    return res.status(404).send({
                         success: false,
                         message: 'Requested user not found.'
                     });
                 }
 
                 Photo.find({ _user: user._id }).sort('-createdAt').limit(4).exec(function(err, photos) {
-                    if (err) res.send(err);
+                    if (err) return res.send(err);
 
-                    res.json(photos);
+                    return res.json(photos);
                 });
             });
         });
@@ -184,7 +184,7 @@ module.exports = function(app, express) {
     // API: /me
     // endpoint to get information about the logged in user
     apiRouter.get('/me', function(req, res) {
-        res.send(req.decoded);
+        return res.send(req.decoded);
     });
 
     // API: /photos
@@ -193,9 +193,9 @@ module.exports = function(app, express) {
         // get all photos
         .get(function(req, res) {
             Photo.find().sort('-createdAt').exec(function(err, photos) {
-                if (err) res.send(err);
+                if (err) return res.send(err);
 
-                res.json(photos);
+                return res.json(photos);
             });
         })
 
@@ -210,15 +210,18 @@ module.exports = function(app, express) {
                 if (err) {
                     // duplicate entry
                     if (err.code == 11000)
-                        return res.json({
+                        return res.status(409).json({
                             success: false,
                             message: 'A photo with that URL already exists.'
                         });
                     else
-                        return res.send(err);
+                        return res.status(400).json({
+                            success: false,
+                            message: err.message
+                        });
                 }
 
-                res.json({
+                return res.json({
                     success: true,
                     message: 'Photo created.'
                 });
@@ -232,13 +235,13 @@ module.exports = function(app, express) {
         .get(function(req, res) {
             Photo.findById(req.params.photo_id, function(err, photo) {
                 if (err) {
-                    res.status(404).send({
+                    return res.status(404).send({
                         success: false,
                         message: 'Requested photo not found.'
                     });
                 }
 
-                res.json(photo);
+                return res.json(photo);
             });
         })
 
@@ -246,50 +249,78 @@ module.exports = function(app, express) {
         .put(function(req, res) {
             Photo.findById(req.params.photo_id, function(err, photo) {
                 if (err) {
-                    res.status(404).send({
+                    return res.status(404).send({
                         success: false,
                         message: 'Requested photo not found.'
                     });
                 }
 
-                // update photo's info only if it is new
-                if (req.body.url) photo.url = req.body.url;
-                if (req.body.caption) photo.caption = req.body.caption;
+                // check if the current user is the photo's author
+                if (photo._user == req.decoded.id) {
+                    // update photo's info only if it is new
+                    if (req.body.url) photo.url = req.body.url;
+                    if (req.body.caption) photo.caption = req.body.caption;
 
-                photo.save(function(err) {
-                    if (err) {
-                        // duplicate entry
-                        if (err.code == 11000)
-                            return res.json({
-                                success: false,
-                                message: 'A photo with that URL already exists.'
-                            });
-                        else
-                            return res.send(err);
-                    }
+                    photo.save(function(err) {
+                        if (err) {
+                            // duplicate entry
+                            if (err.code == 11000)
+                                return res.status(409).json({
+                                    success: false,
+                                    message: 'A photo with that URL already exists.'
+                                });
+                            else
+                                return res.status(400).json({
+                                    success: false,
+                                    message: err.message
+                                });
+                        }
 
-                    res.json({
-                        success: true,
-                        message: 'Photo updated.'
+                        return res.json({
+                            success: true,
+                            message: 'Photo updated.'
+                        });
                     });
-                });
+                } else {
+                    return res.status(403).json({
+                        success: false,
+                        message: 'Unauthorised operation.'
+                    });
+                }
             });
         })
 
         // delete the photo with that id
         .delete(function(req, res) {
-            Photo.remove({ _id: req.params.photo_id }, function(err, photo) {
+            Photo.findById(req.params.photo_id, function(err, photo) {
                 if (err) {
-                    res.status(404).send({
+                    return res.status(404).send({
                         success: false,
                         message: 'Requested photo not found.'
                     });
                 }
 
-                res.json({
-                    success: true,
-                    message: 'Photo deleted.'
-                });
+                // check if the current user is the photo's author
+                if (photo._user == req.decoded.id) {
+                    Photo.remove({ _id: req.params.photo_id }, function(err, photo) {
+                        if (err) {
+                            return res.status(404).send({
+                                success: false,
+                                message: 'Requested photo not found.'
+                            });
+                        }
+
+                        return res.json({
+                            success: true,
+                            message: 'Photo deleted.'
+                        });
+                    });
+                } else {
+                    return res.status(403).json({
+                        success: false,
+                        message: 'Unauthorised operation.'
+                    });
+                }
             });
         });
 
@@ -300,16 +331,16 @@ module.exports = function(app, express) {
         .get(function(req, res) {
             Photo.findById(req.params.photo_id, function(err, photo) {
                 if (err) {
-                    res.status(404).send({
+                    return res.status(404).send({
                         success: false,
-                        message: 'Requested image not found.'
+                        message: 'Requested photo not found.'
                     });
                 }
 
                 Comment.find({ _photo: photo._id }, function(err, comments) {
-                    if (err) res.send(err);
+                    if (err) return res.send(err);
 
-                    res.json(comments);
+                    return res.json(comments);
                 });
             });
         });
@@ -325,9 +356,13 @@ module.exports = function(app, express) {
             comment.content = req.body.content;
 
             comment.save(function(err) {
-                if (err) return res.send(err);
+                if (err)
+                    return res.status(400).json({
+                        success: false,
+                        message: err.message
+                    });
 
-                res.json({
+                return res.json({
                     success: true,
                     message: 'Comment created.'
                 });
@@ -341,30 +376,47 @@ module.exports = function(app, express) {
         .get(function(req, res) {
             Comment.findById(req.params.comment_id, function(err, comment) {
                 if (err) {
-                    res.status(404).send({
+                    return res.status(404).send({
                         success: false,
                         message: 'Requested comment not found.'
                     });
                 }
 
-                res.json(comment);
+                return res.json(comment);
             });
         })
 
         // delete the comment with that id
         .delete(function(req, res) {
-            Comment.remove({ _id: req.params.comment_id }, function(err, comment) {
+            Comment.findById(req.params.comment_id, function(err, comment) {
                 if (err) {
-                    res.status(404).send({
+                    return res.status(404).send({
                         success: false,
                         message: 'Requested comment not found.'
                     });
                 }
 
-                res.json({
-                    success: true,
-                    message: 'Comment deleted.'
-                });
+                // check if the current user is the comment's author
+                if (comment._user == req.decoded.id) {
+                    Comment.remove({ _id: req.params.comment_id }, function(err, comment) {
+                        if (err) {
+                            return res.status(404).send({
+                                success: false,
+                                message: 'Requested comment not found.'
+                            });
+                        }
+
+                        return res.json({
+                            success: true,
+                            message: 'Comment deleted.'
+                        });
+                    });
+                } else {
+                    return res.status(403).json({
+                        success: false,
+                        message: 'Unauthorised operation.'
+                    });
+                }
             });
         });
 
