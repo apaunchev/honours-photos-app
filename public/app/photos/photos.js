@@ -46,8 +46,6 @@ angular.module('photos', ['services.photos', 'services.comments'])
             });
 
         $scope.deletePhoto = function(id) {
-            $scope.processing = true;
-
             // if photo has comments, delete them first
             if ($scope.comments.length > 0) {
                 angular.forEach($scope.comments, function(comment, i) {
@@ -57,13 +55,11 @@ angular.module('photos', ['services.photos', 'services.comments'])
 
             Photo.delete(id)
                 .success(function(data) {
-                    $scope.processing = false;
                     $location.path('/users/' + $scope.loggedUser.id);
                 });
         };
 
         $scope.saveComment = function() {
-            $scope.processing = true;
             $scope.commentData._user = $scope.loggedUser.id;
             $scope.commentData._photo = $scope.photo._id;
 
@@ -72,7 +68,6 @@ angular.module('photos', ['services.photos', 'services.comments'])
                     // get the comments again to update the view
                     Photo.comments($routeParams.photo_id)
                         .success(function(data) {
-                            $scope.processing = false;
                             $scope.commentData = {};
                             $scope.comments = data;
                             $scope.comments.user = [];
@@ -94,14 +89,12 @@ angular.module('photos', ['services.photos', 'services.comments'])
         };
 
         $scope.deleteComment = function(id) {
-            $scope.processing = true;
 
             Comment.delete(id)
                 .success(function(data) {
                     // get the comments again to update the view
                     Photo.comments($routeParams.photo_id)
                         .success(function(data) {
-                            $scope.processing = false;
                             $scope.commentData = {};
                             $scope.comments = data;
                             $scope.comments.user = [];
@@ -128,12 +121,10 @@ angular.module('photos', ['services.photos', 'services.comments'])
         $scope.error = '';
 
         $scope.savePhoto = function() {
-            $scope.processing = true;
             $scope.photoData._user = $scope.loggedUser.id;
 
             Photo.create($scope.photoData)
                 .success(function(data) {
-                    $scope.processing = false;
 
                     if (data.success) {
                         $location.path('/users/' + $scope.loggedUser.id);
@@ -155,12 +146,10 @@ angular.module('photos', ['services.photos', 'services.comments'])
             });
 
         $scope.savePhoto = function() {
-            $scope.processing = true;
             $scope.photoData._user = $scope.loggedUser.id;
 
             Photo.update($routeParams.photo_id, $scope.photoData)
                 .success(function(data) {
-                    $scope.processing = false;
 
                     if (data.success) {
                         $location.path('/photos/' + $scope.photoData._id);

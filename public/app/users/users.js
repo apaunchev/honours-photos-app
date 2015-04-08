@@ -32,14 +32,11 @@ angular.module('users', ['services.users'])
             });
 
         $scope.deletePhoto = function(id) {
-            $scope.processing = true;
-
             Photo.delete(id)
                 .success(function(data) {
                     // get the user's photos again to update the view
                     User.allPhotos($routeParams.user_id)
                         .success(function(data) {
-                            $scope.processing = false;
                             $scope.photos = data;
                         });
                 });

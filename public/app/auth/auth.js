@@ -18,13 +18,10 @@ angular.module('auth', ['services.auth'])
         });
 
         $scope.doSignup = function() {
-            $scope.processing = true;
             $scope.error = '';
 
             Auth.signup($scope.signupData.username, $scope.signupData.password)
                 .success(function(data) {
-                    $scope.processing = false;
-
                     if (data.success) {
                         $scope.justSignedUp = true;
                         $scope.signupData = {};
@@ -35,13 +32,10 @@ angular.module('auth', ['services.auth'])
         };
 
         $scope.doLogin = function() {
-            $scope.processing = true;
             $scope.error = '';
 
             Auth.login($scope.loginData.username, $scope.loginData.password)
                 .success(function(data) {
-                    $scope.processing = false;
-
                     if (data.success)
                         $location.path('/photos');
                     else
