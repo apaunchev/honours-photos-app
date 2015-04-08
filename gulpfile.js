@@ -4,6 +4,7 @@ var gulp       = require('gulp'),
     rename     = require('gulp-rename'),
     concat     = require('gulp-concat'),
     uglify     = require('gulp-uglify'),
+    ngAnnotate = require('gulp-ng-annotate'),
     nodemon    = require('gulp-nodemon');
 
 gulp.task('css', function() {
@@ -18,6 +19,7 @@ gulp.task('css', function() {
 
 gulp.task('js', function() {
     return gulp.src(['public/app/*.js', 'public/app/**/*.js'])
+        .pipe(ngAnnotate())
         .pipe(concat('app.js'))
         .pipe(gulp.dest('public/assets/js'))
         .pipe(rename('app.min.js'))
