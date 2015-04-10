@@ -20,29 +20,37 @@ angular.module('auth', ['services.auth'])
         $scope.doSignup = function() {
             $scope.error = '';
 
-            Auth.signup($scope.signupData.username, $scope.signupData.password)
-                .success(function(data) {
-                    if (data.success) {
-                        $scope.justSignedUp = true;
-                        $scope.signupData = {};
-                    }
-                })
-                .error(function(status) {
-                    $scope.error = status.message;
-                });
+            if ($scope.signupData) {
+                Auth.signup($scope.signupData.username, $scope.signupData.password)
+                    .success(function(data) {
+                        if (data.success) {
+                            $scope.justSignedUp = true;
+                            $scope.signupData = {};
+                        }
+                    })
+                    .error(function(status) {
+                        $scope.error = status.message;
+                    });
+            } else {
+                $scope.error = 'Please enter a valid username and password.';
+            }
         };
 
         $scope.doLogin = function() {
             $scope.error = '';
 
-            Auth.login($scope.loginData.username, $scope.loginData.password)
-                .success(function(data) {
-                    if (data.success)
-                        $location.path('/photos');
-                })
-                .error(function(status) {
-                    $scope.error = status.message;
-                });
+            if ($scope.loginData) {
+                Auth.login($scope.loginData.username, $scope.loginData.password)
+                    .success(function(data) {
+                        if (data.success)
+                            $location.path('/photos');
+                    })
+                    .error(function(status) {
+                        $scope.error = status.message;
+                    });
+            } else {
+                $scope.error = 'Please enter valid login credentials.';
+            }
         };
 
         $scope.doLogout = function() {
