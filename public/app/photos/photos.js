@@ -64,7 +64,7 @@ angular.module('photos', ['services.photos', 'services.comments'])
         };
 
         $scope.saveComment = function() {
-            $scope.error = '';
+            $scope.commentError = '';
 
             if ($scope.commentData) {
                 $scope.commentData._user = $scope.loggedUser.id;
@@ -95,7 +95,7 @@ angular.module('photos', ['services.photos', 'services.comments'])
                         });
                 })
                 .error(function(status) {
-                    $scope.error = status.message;
+                    $scope.commentError = status.message;
                 });
         };
 
@@ -128,7 +128,7 @@ angular.module('photos', ['services.photos', 'services.comments'])
 
     .controller('photoAddController', function($scope, $location, Photo) {
         $scope.type = 'add';
-        $scope.error = '';
+        $scope.updateError = '';
 
         $scope.savePhoto = function() {
             if ($scope.photoData)
@@ -140,7 +140,7 @@ angular.module('photos', ['services.photos', 'services.comments'])
                         $location.path('/users/' + $scope.loggedUser.id);
                 })
                 .error(function(status) {
-                    $scope.error = status.message;
+                    $scope.updateError = status.message;
                 });
         };
 })
