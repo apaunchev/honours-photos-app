@@ -9,6 +9,7 @@ angular.module('photos', ['services.photos', 'services.comments'])
 
     .controller('photoViewController', function($scope, $route, $routeParams, $location, Photo, User, Comment) {
         $scope.isOwner = false;
+        $scope.error = '';
 
         // get the photo
         Photo.get($routeParams.photo_id)
@@ -43,6 +44,9 @@ angular.module('photos', ['services.photos', 'services.comments'])
                                 });
                         });
                     });
+            })
+            .error(function(status) {
+                $scope.error = status.message;
             });
 
         $scope.deletePhoto = function(id) {
@@ -144,10 +148,14 @@ angular.module('photos', ['services.photos', 'services.comments'])
     .controller('photoEditController', function($scope, $routeParams, $location, Photo) {
         $scope.type = 'edit';
         $scope.error = '';
+        $scope.updateError = '';
 
         Photo.get($routeParams.photo_id)
             .success(function(data) {
                 $scope.photoData = data;
+            })
+            .error(function(status) {
+                $scope.error = status.message;
             });
 
         $scope.savePhoto = function() {
@@ -160,7 +168,7 @@ angular.module('photos', ['services.photos', 'services.comments'])
                         $location.path('/photos/' + $scope.photoData._id);
                 })
                 .error(function(status) {
-                    $scope.error = status.message;
+                    $scope.updateError = status.message;
                 });
         };
     });

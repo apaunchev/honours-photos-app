@@ -1,14 +1,18 @@
-<div class="page-header" ng-show="user">
+<div class="alert alert-danger" role="alert" ng-if="error">
+    {{ error }}
+</div>
+
+<div class="page-header" ng-show="user && !error">
     <h1>
-    {{ user.username }}’s Photos
-    <a href="/photos/add" class="btn btn-primary" ng-show="isOwner">
-        <span class="glyphicon glyphicon-plus"></span>
-        Add Photo
-    </a>
+        {{ user.username }}’s Photos
+        <a href="/photos/add" class="btn btn-primary" ng-show="isOwner">
+            <span class="glyphicon glyphicon-plus"></span>
+            Add Photo
+        </a>
     </h1>
 </div>
 
-<div class="photos" ng-show="photos">
+<div class="photos" ng-show="photos && !error">
     <div ng-show="photos.length == 0">
         <p>No photos yet.</p>
     </div>

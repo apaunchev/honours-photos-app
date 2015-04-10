@@ -1,4 +1,8 @@
-<div class="page-header">
+<div class="alert alert-danger" role="alert" ng-if="error">
+    {{ error }}
+</div>
+
+<div class="page-header" ng-show="photo && !error">
     <h1>
         Viewing Photo
         <a href="/photos/{{ photo._id }}/edit" class="btn btn-primary" role="button" ng-show="isOwner">
@@ -12,7 +16,7 @@
     </h1>
 </div>
 
-<div class="photo" ng-show="photo">
+<div class="photo" ng-show="photo && !error">
     <div class="row">
         <div class="col-md-6">
             <figure>

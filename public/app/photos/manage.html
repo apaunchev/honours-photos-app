@@ -1,9 +1,13 @@
-<div class="page-header">
+<div class="alert alert-danger" role="alert" ng-if="error">
+    {{ error }}
+</div>
+
+<div class="page-header" ng-show="!error">
     <h1 ng-show="type == 'add'">Add Photo</h1>
     <h1 ng-show="type == 'edit'">Edit Photo</h1>
 </div>
 
-<form class="form-horizontal" ng-submit="savePhoto()">
+<form class="form-horizontal" ng-submit="savePhoto()" ng-show="!error">
     <div class="form-group">
         <label class="col-sm-2 control-label">URL</label>
         <div class="col-sm-6">
@@ -20,8 +24,8 @@
 
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-6">
-            <div class="alert alert-danger" role="alert" ng-if="error">
-                {{ error }}
+            <div class="alert alert-danger" role="alert" ng-if="updateError">
+                {{ updateError }}
             </div>
 
             <button type="submit" class="btn btn-success btn-block">

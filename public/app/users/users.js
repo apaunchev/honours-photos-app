@@ -29,6 +29,9 @@ angular.module('users', ['services.users'])
                     .success(function(data) {
                         $scope.photos = data;
                     });
+            })
+            .error(function(status) {
+                $scope.error = status.message;
             });
 
         $scope.deletePhoto = function(id) {
