@@ -94,7 +94,7 @@ describe('Users', function() {
             });
     });
 
-    it('should not be able to access users without a vailid token', function(done) {
+    it('should not be able to access users without a valid token', function(done) {
         api.get('/api/users')
             .set('x-access-token', 'invalidtoken')
             .set('Accept', 'application/json')
@@ -180,7 +180,7 @@ describe('Users', function() {
             });
     });
 
-    it('should return currently authetnicated user as JSON', function(done) {
+    it('should return currently authenticated user as JSON', function(done) {
         api.get('/api/me')
             .set('x-access-token', token)
             .set('Accept', 'application/json')
@@ -217,7 +217,7 @@ describe('Photos', function() {
             });
     });
 
-    it('should not be able to access photos without a vailid token', function(done) {
+    it('should not be able to access photos without a valid token', function(done) {
         api.get('/api/photos')
             .set('x-access-token', 'invalidtoken')
             .set('Accept', 'application/json')
@@ -404,7 +404,7 @@ describe('Comments', function() {
             });
     });
 
-    it('should not be able to access comments without a vailid token', function(done) {
+    it('should not be able to access comments without a valid token', function(done) {
         api.get('/api/comments')
             .set('x-access-token', 'invalidtoken')
             .set('Accept', 'application/json')
